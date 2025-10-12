@@ -3,17 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "PlayerPawn.generated.h"
+#include "GameFramework/Character.h"
+#include "PlayerCharacter.generated.h"
 
 UCLASS()
-class AIMTRAINER_API APlayerPawn : public APawn
+class AIMTRAINER_API APlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	APlayerPawn();
+	// Sets default values for this character's properties
+	APlayerCharacter();
 
 protected:
 	// Called when the game starts or when spawned
