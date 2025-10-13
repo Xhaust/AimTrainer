@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputMappingContext.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -18,6 +19,14 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	class UInputAction* LookAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	class  UInputMappingContext* BaseMappingContext;
+
+	void Look(const FInputActionValue& Value);
 
 public:	
 	// Called every frame
