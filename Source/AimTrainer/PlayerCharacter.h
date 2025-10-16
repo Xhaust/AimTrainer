@@ -24,9 +24,17 @@ protected:
 	class UInputAction* LookAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	class UInputAction* ShootAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	class  UInputMappingContext* BaseMappingContext;
 
+	UPROPERTY()
+	AWeapon* CurrentWeapon;
+
 	void Look(const FInputActionValue& Value);
+	void StartFire();
+	void StopFire();
 
 public:	
 	// Called every frame
