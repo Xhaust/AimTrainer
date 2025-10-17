@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputMappingContext.h"
+#include "Weapon.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -29,8 +30,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	class  UInputMappingContext* BaseMappingContext;
 
-	UPROPERTY()
-	AWeapon* CurrentWeapon;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+	TSubclassOf<AWeapon> DefaultWeaponClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	class AWeapon* CurrentWeapon = nullptr;
 
 	void Look(const FInputActionValue& Value);
 	void StartFire();

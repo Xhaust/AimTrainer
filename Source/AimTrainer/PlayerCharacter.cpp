@@ -5,6 +5,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Weapon.h"
 #include "GameFramework/PlayerController.h"
 
 // Sets default values
@@ -19,7 +20,17 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (DefaultWeaponClass)
+	{
+		// Spawn the weapon
+		CurrentWeapon = GetWorld()->SpawnActor<AWeapon>(DefaultWeaponClass);
+		if (CurrentWeapon)
+		{
+			// Set the owner (important for line trace and ApplyDamage)
+			CurrentWeapon->SetOwner(this);
+		}
+	}
 }
 
 // Called every frame
@@ -59,5 +70,21 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 	{
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void APlayerCharacter::StartFire()
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->StartFire();
+	}
+}
+
+void APlayerCharacter::StopFire()
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->StopFire();
 	}
 }

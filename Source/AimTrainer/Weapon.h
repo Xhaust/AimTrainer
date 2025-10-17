@@ -15,22 +15,24 @@ public:
 	// Sets default values for this actor's properties
 	AWeapon();
 
+	void StartFire();
+	void StopFire();
+	void FireShot();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void StartFire();
-	void StopFire();
-
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	float Damage = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	float FireRate = 0.1f;
-
-	bool bIsFiring = false;
+	float FireRate = 0.025f;
+	
+	UPROPERTY(EditAnywhere, Category = "Weapon")
 	bool bAutomatic = false;
+
+	FTimerHandle FireTimer;
 
 public:	
 	// Called every frame
