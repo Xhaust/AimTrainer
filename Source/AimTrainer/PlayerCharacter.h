@@ -28,7 +28,7 @@ protected:
 	class UInputAction* ShootAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	class  UInputMappingContext* BaseMappingContext;
+	class UInputMappingContext* BaseMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<AWeapon> DefaultWeaponClass;
