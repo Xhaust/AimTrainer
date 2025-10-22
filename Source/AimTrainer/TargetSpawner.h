@@ -19,6 +19,22 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+	TSubclassOf<AActor> TargetClass;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+	int32 MaxTargets = 3;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+	FVector SpawnAreaExtent = FVector(500.0f, 500.0f, 500.0f);
+
+	int32 CurrentTargets = 0;
+
+	void SpawnTarget();
+
+	UFUNCTION()
+	void OnTargetDestroyed(AActor* DestroyedActor);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
