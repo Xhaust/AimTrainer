@@ -71,7 +71,7 @@ void AWeapon::FireShot()
 	FHitResult Hit;
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(Owner);
+	Params.AddIgnoredActor(MyOwner);
 
 	bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECC_Visibility, Params);
 
