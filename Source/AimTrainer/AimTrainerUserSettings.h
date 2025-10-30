@@ -13,7 +13,11 @@ UCLASS(Config=GameUserSettings)
 class AIMTRAINER_API UAimTrainerUserSettings : public UGameUserSettings
 {
 	GENERATED_BODY()
+	
+public:
 
+	UAimTrainerUserSettings();
+	
 	UPROPERTY(Config, EditAnywhere, Category="Controls")
 	FString CurrentGameProfile;
 	
