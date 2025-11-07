@@ -18,18 +18,19 @@ public:
 
 	UAimTrainerUserSettings();
 	
-	UPROPERTY(Config, EditAnywhere, Category="Controls")
+	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category="Controls")
 	FString CurrentGameProfile;
 	
-	UPROPERTY(Config, EditAnywhere, Category = "Controls")
+	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Controls")
 	float MouseSensitivity;
 
-	UPROPERTY(Config, EditAnywhere, Category = "Controls")
+	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Controls")
 	float FieldOfView;
 
-	UFUNCTION(BlueprintCallable, Category = "Settings")
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "Settings")
 	void ApplyAimTrainerSettings();
 
+	UFUNCTION(BlueprintCallable, Category = "Settings")
 	static UAimTrainerUserSettings* GetAimTrainerUserSettings();
 };
 
