@@ -16,19 +16,14 @@ class AIMTRAINER_API UAimTrainerUserSettings : public UGameUserSettings
 	
 public:
 
-	UAimTrainerUserSettings();
-	
 	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category="Controls")
-	FString CurrentGameProfile;
+	FString CurrentGameProfile = "CS2";
 	
 	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Controls")
-	float MouseSensitivity;
+	float MouseSensitivity = 1.0f;
 
 	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Controls")
-	float FieldOfView;
-
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "Settings")
-	void ApplyAimTrainerSettings();
+	float FieldOfView = 90.0f;
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
 	static UAimTrainerUserSettings* GetAimTrainerUserSettings();
