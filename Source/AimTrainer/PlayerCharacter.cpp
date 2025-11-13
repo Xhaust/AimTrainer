@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Weapon.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
 
 // Sets default values
@@ -58,6 +59,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &APlayerCharacter::StartFire);
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &APlayerCharacter::StopFire);
+		EnhancedInputComponent->BindAction(ToggleSettingsAction, ETriggerEvent::Started, this, &APlayerCharacter::ToggleSettingsMenu);
 	}
 
 }
@@ -86,5 +88,25 @@ void APlayerCharacter::StopFire()
 	if (CurrentWeapon)
 	{
 		CurrentWeapon->StopFire();
+	}
+}
+
+void APlayerCharacter::ToggleSettingsMenu()
+{
+	if (SettingsMenuClass)
+	{
+		APlayerController* PlayerController = GetController<APlayerController>();
+		if (PlayerController)
+		{
+			SettingsMenu = CreateWidget<UGameSettingsMenu>(PlayerController, SettingsMenuClass);
+			if (SettingsMenu)
+			{
+				SettingsMenu->AddToViewport();
+				FInputModeUIOnly InputMode;
+				InputMode.SetWidgetToFocus(SettingsMenu->TakeWidget());
+				PlayerController->SetInputMode(InputMode);
+				PlayerController->bShowMouseCursor = true;
+			}
+		}
 	}
 }

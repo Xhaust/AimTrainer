@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameSettingsMenu.h"
 #include "GameFramework/Character.h"
 #include "InputMappingContext.h"
 #include "Weapon.h"
@@ -40,6 +41,18 @@ protected:
 	void StartFire();
 	void StopFire();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	class UInputAction* ToggleSettingsAction;
+	
+	UFUNCTION(BlueprintCallable)
+	void ToggleSettingsMenu();
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
+	TSubclassOf<UGameSettingsMenu> SettingsMenuClass;
+
+	UPROPERTY()
+	UGameSettingsMenu* SettingsMenu;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
