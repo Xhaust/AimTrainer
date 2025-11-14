@@ -98,13 +98,26 @@ void APlayerCharacter::ToggleSettingsMenu()
 		APlayerController* PlayerController = GetController<APlayerController>();
 		if (PlayerController)
 		{
+			if (SettingsMenu && SettingsMenu->IsInViewport())
+			{
+				SettingsMenu->RemoveFromParent();
+				SettingsMenu = nullptr;
+				FInputModeGameOnly GameInputMode;
+				PlayerController->SetInputMode(GameInputMode);
+				PlayerController->bShowMouseCursor = false;
+				return;
+			}
+			if (!SettingsMenu)
+			{
 			SettingsMenu = CreateWidget<UGameSettingsMenu>(PlayerController, SettingsMenuClass);
+			}
 			if (SettingsMenu)
 			{
 				SettingsMenu->AddToViewport();
-				FInputModeUIOnly InputMode;
-				InputMode.SetWidgetToFocus(SettingsMenu->TakeWidget());
-				PlayerController->SetInputMode(InputMode);
+				FInputModeGameAndUI GameAndUIInputMode;
+				GameAndUIInputMode.SetWidgetToFocus(SettingsMenu->TakeWidget());
+				GameAndUIInputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+				PlayerController->SetInputMode(GameAndUIInputMode);
 				PlayerController->bShowMouseCursor = true;
 			}
 		}
