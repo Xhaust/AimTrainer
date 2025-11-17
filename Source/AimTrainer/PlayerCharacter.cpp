@@ -32,6 +32,15 @@ void APlayerCharacter::BeginPlay()
 			CurrentWeapon->SetOwner(this);
 		}
 	}
+
+	if (CrosshairClass)
+	{
+		Crosshair = CreateWidget<UCrosshair>(GetWorld(), CrosshairClass);
+		if (Crosshair)
+		{
+			Crosshair->AddToViewport();
+		}
+	}
 }
 
 // Called every frame

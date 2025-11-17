@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Crosshair.h"
 #include "GameSettingsMenu.h"
 #include "GameFramework/Character.h"
 #include "InputMappingContext.h"
@@ -52,6 +53,12 @@ protected:
 
 	UPROPERTY()
 	UGameSettingsMenu* SettingsMenu;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crosshair")
+	TSubclassOf<UCrosshair> CrosshairClass;
+
+	UPROPERTY()
+	UCrosshair* Crosshair;
 	
 public:	
 	// Called every frame

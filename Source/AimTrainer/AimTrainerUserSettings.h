@@ -25,6 +25,12 @@ public:
 	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Controls")
 	float FieldOfView = 90.0f;
 
+	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Crosshair")
+	TSoftObjectPtr<UTexture2D> CrosshairTexture = TSoftObjectPtr<UTexture2D>(FSoftObjectPath(TEXT("/Game/Crosshairs/Dot.Dot")));
+
+	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Crosshair")
+	float CrosshairScale = 1.0f;
+
 	UFUNCTION(BlueprintCallable, Category = "Settings")
 	static UAimTrainerUserSettings* GetAimTrainerUserSettings();
 };
