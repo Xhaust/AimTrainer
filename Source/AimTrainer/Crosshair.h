@@ -7,9 +7,6 @@
 #include "Components/Image.h"
 #include "Crosshair.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class AIMTRAINER_API UCrosshair : public UUserWidget
 {

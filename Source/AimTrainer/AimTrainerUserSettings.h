@@ -6,9 +6,6 @@
 #include "GameFramework/GameUserSettings.h"
 #include "AimTrainerUserSettings.generated.h"
 
-/**
- * 
- */
 UCLASS(Config=GameUserSettings)
 class AIMTRAINER_API UAimTrainerUserSettings : public UGameUserSettings
 {

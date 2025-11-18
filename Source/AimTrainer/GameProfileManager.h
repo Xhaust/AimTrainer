@@ -6,10 +6,6 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "GameProfileManager.generated.h"
 
-/**
- * 
- */
-
 USTRUCT(BlueprintType)
 struct FGameProfile
 {
