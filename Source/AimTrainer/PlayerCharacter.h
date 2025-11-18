@@ -24,26 +24,26 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	class UInputAction* LookAction;
+	UInputAction* LookAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	class UInputAction* ShootAction;
+	UInputAction* ShootAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	class UInputMappingContext* BaseMappingContext;
+	UInputMappingContext* BaseMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<AWeapon> DefaultWeaponClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
-	class AWeapon* CurrentWeapon = nullptr;
+	AWeapon* CurrentWeapon = nullptr;
 
 	void Look(const FInputActionValue& Value);
 	void StartFire();
 	void StopFire();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
-	class UInputAction* ToggleSettingsAction;
+	UInputAction* ToggleSettingsAction;
 	
 	UFUNCTION(BlueprintCallable)
 	void ToggleSettingsMenu();
@@ -65,6 +65,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 };

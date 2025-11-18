@@ -22,16 +22,16 @@ protected:
 
 public:
 	UPROPERTY(meta = (BindWidget))
-	class UComboBoxString* ProfileComboBox;
+	UComboBoxString* ProfileComboBox;
 	
 	UPROPERTY(meta = (BindWidget))
-	class USlider* SensitivitySlider;
+	USlider* SensitivitySlider;
 
 	UPROPERTY(meta = (BindWidget))
-	class USlider* FOVSlider;
+	USlider* FOVSlider;
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* ApplyButton;
+	UButton* ApplyButton;
 
 	UFUNCTION()
 	void ApplyOnClicked();
