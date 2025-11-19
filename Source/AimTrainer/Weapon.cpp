@@ -75,11 +75,11 @@ void AWeapon::FireShot()
 
 	bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECC_Visibility, Params);
 
-	DrawDebugLine(GetWorld(), Location, End, FColor::Red, false, 10.0f, 0, 1.0f);
+	//DrawDebugLine(GetWorld(), Location, End, FColor::Red, false, 10.0f, 0, 1.0f);
 
 	if (bHit && Hit.GetActor())
 	{
 		UGameplayStatics::ApplyDamage(Hit.GetActor(), Damage, PlayerController, this, nullptr);
-		DrawDebugPoint(GetWorld(), Hit.ImpactPoint, 10.0f, FColor::Yellow, false, 10.0f);
+		//DrawDebugPoint(GetWorld(), Hit.ImpactPoint, 10.0f, FColor::Yellow, false, 10.0f);
 	}
 }
