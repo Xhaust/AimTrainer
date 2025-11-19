@@ -28,7 +28,15 @@ void UGameSettingsMenu::NativeOnInitialized()
 	if (UserSettings)
 	{
 		ProfileComboBox->SetSelectedOption(UserSettings->CurrentGameProfile);
+
+		if (SensitivitySlider)
+		{
 		SensitivitySlider->SetValue(UserSettings->MouseSensitivity);
+		}
+		if (SensitivityTextBox)
+		{
+			SensitivityTextBox->SetText(FText::AsNumber(UserSettings->MouseSensitivity));
+		}
 		FOVSlider->SetValue(UserSettings->FieldOfView);
 	}
 
@@ -42,6 +50,23 @@ void UGameSettingsMenu::NativeConstruct()
 	{
 		ApplyButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::ApplyOnClicked);
 	}
+
+	if (SensitivitySlider && SensitivityTextBox)
+	{
+		SensitivitySlider->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnSensitivitySliderChanged);
+		SensitivityTextBox->OnTextChanged.AddDynamic(this, &UGameSettingsMenu::OnSensitivityTextBoxChanged);
+	}
+}
+
+void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
+{
+		SensitivityTextBox->SetText(FText::AsNumber(NewValue));
+}
+
+void UGameSettingsMenu::OnSensitivityTextBoxChanged(const FText& NewText)
+{
+		float NewValue = FCString::Atof(*NewText.ToString());
+		SensitivitySlider->SetValue(NewValue);
 }
 
 void UGameSettingsMenu::ApplyOnClicked()

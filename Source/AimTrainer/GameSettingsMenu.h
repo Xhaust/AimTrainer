@@ -9,6 +9,7 @@
 #include "Components/ComboBoxString.h"
 #include "Components/Slider.h"
 #include "Components/Button.h"
+#include "Components/EditableTextBox.h"
 #include "GameSettingsMenu.generated.h"
 
 UCLASS()
@@ -24,8 +25,18 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UComboBoxString* ProfileComboBox;
 	
+	// Sensitivity
 	UPROPERTY(meta = (BindWidget))
 	USlider* SensitivitySlider;
+
+	UPROPERTY(meta = (BindWidget))
+	UEditableTextBox* SensitivityTextBox;
+
+	UFUNCTION()
+	void OnSensitivitySliderChanged(float NewValue);
+
+	UFUNCTION()
+	void OnSensitivityTextBoxChanged(const FText& NewText);
 
 	UPROPERTY(meta = (BindWidget))
 	USlider* FOVSlider;
