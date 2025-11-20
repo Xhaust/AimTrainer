@@ -59,6 +59,10 @@ protected:
 
 	UPROPERTY()
 	UCrosshair* Crosshair;
+
+private:
+	UPROPERTY()
+	UAimTrainerUserSettings* Settings = nullptr;
 	
 public:	
 	// Called every frame
