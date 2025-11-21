@@ -12,10 +12,10 @@ struct FGameProfile
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Profile")
-	FString ProfileName;
+	FString ProfileName = "CS2";
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Profile")
-	float ConversionScale;
+	float ConversionScale = 1.0f;
 };
 
 UCLASS()
