@@ -31,5 +31,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Profiles")
 	TArray<FGameProfile> GetProfiles();
-	
+
+	float GetConversionScaleForProfile(const FString& ProfileName) const;
 };

@@ -79,7 +79,10 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
+	UGameProfileManager* ProfileManager = GetGameInstance()->GetSubsystem<UGameProfileManager>();
 	float MouseSensitivity = Settings->MouseSensitivity;
+	float ConversionScaler = ProfileManager->GetConversionScaleForProfile(Settings->CurrentGameProfile);
+	MouseSensitivity *= ConversionScaler;
 	if (Controller)
 	{
 		AddControllerYawInput(LookAxisVector.X * MouseSensitivity);
