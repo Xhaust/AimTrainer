@@ -92,6 +92,11 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 
 void APlayerCharacter::StartFire()
 {
+	if (bIsSettingsOpen)
+	{
+		return;
+	}
+	
 	if (CurrentWeapon)
 	{
 		CurrentWeapon->StartFire();
@@ -115,11 +120,14 @@ void APlayerCharacter::ToggleSettingsMenu()
 		{
 			if (SettingsMenu && SettingsMenu->IsInViewport())
 			{
+				bIsSettingsOpen = false;
+				
 				SettingsMenu->RemoveFromParent();
 				SettingsMenu = nullptr;
 				FInputModeGameOnly GameInputMode;
 				PlayerController->SetInputMode(GameInputMode);
 				PlayerController->bShowMouseCursor = false;
+				PlayerController->SetIgnoreLookInput(false);
 				return;
 			}
 			if (!SettingsMenu)
@@ -128,12 +136,15 @@ void APlayerCharacter::ToggleSettingsMenu()
 			}
 			if (SettingsMenu)
 			{
+				bIsSettingsOpen = true;	
+				
 				SettingsMenu->AddToViewport();
 				FInputModeGameAndUI GameAndUIInputMode;
 				GameAndUIInputMode.SetWidgetToFocus(SettingsMenu->TakeWidget());
 				GameAndUIInputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 				PlayerController->SetInputMode(GameAndUIInputMode);
 				PlayerController->bShowMouseCursor = true;
+				PlayerController->SetIgnoreLookInput(true);
 			}
 		}
 	}

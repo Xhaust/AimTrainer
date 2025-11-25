@@ -63,6 +63,8 @@ protected:
 private:
 	UPROPERTY()
 	UAimTrainerUserSettings* Settings = nullptr;
+
+	bool bIsSettingsOpen = false;
 	
 public:	
 	// Called every frame
