@@ -20,6 +20,7 @@ class AIMTRAINER_API UGameSettingsMenu : public UUserWidget
 protected:
 	virtual void NativeOnInitialized()override;
 	virtual void NativeConstruct() override;
+	void BindTextBoxToSlider(USlider* Slider, UEditableTextBox* TextBox);
 
 public:
 	UPROPERTY(meta = (BindWidget))
@@ -31,12 +32,6 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	UEditableTextBox* SensitivityTextBox;
-
-	UFUNCTION()
-	void OnSensitivitySliderChanged(float NewValue);
-
-	UFUNCTION()
-	void OnSensitivityTextBoxChanged(const FText& NewText);
 
 	UPROPERTY(meta = (BindWidget))
 	USlider* FOVSlider;

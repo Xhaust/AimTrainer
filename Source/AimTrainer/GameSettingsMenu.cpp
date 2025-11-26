@@ -53,20 +53,17 @@ void UGameSettingsMenu::NativeConstruct()
 
 	if (SensitivitySlider && SensitivityTextBox)
 	{
-		SensitivitySlider->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnSensitivitySliderChanged);
-		SensitivityTextBox->OnTextChanged.AddDynamic(this, &UGameSettingsMenu::OnSensitivityTextBoxChanged);
+		BindTextBoxToSlider(SensitivitySlider, SensitivityTextBox);
 	}
 }
 
-void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
+void UGameSettingsMenu::BindTextBoxToSlider(USlider* Slider, UEditableTextBox* TextBox)
 {
-		SensitivityTextBox->SetText(FText::AsNumber(NewValue));
-}
-
-void UGameSettingsMenu::OnSensitivityTextBoxChanged(const FText& NewText)
-{
-		float NewValue = FCString::Atof(*NewText.ToString());
-		SensitivitySlider->SetValue(NewValue);
+	if (Slider && TextBox)
+	{
+		Slider->SetValue(TextBox->GetText().IsNumeric() ? FCString::Atof(*TextBox->GetText().ToString()) : 0.0f);
+		TextBox->SetText(FText::AsNumber(Slider->GetValue()));
+	}
 }
 
 void UGameSettingsMenu::ApplyOnClicked()
