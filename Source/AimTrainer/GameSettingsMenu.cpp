@@ -29,15 +29,14 @@ void UGameSettingsMenu::NativeOnInitialized()
 	{
 		ProfileComboBox->SetSelectedOption(UserSettings->CurrentGameProfile);
 
-		if (SensitivitySlider)
+		if (SensitivitySliderTextBox)
 		{
-		SensitivitySlider->SetValue(UserSettings->MouseSensitivity);
+			SensitivitySliderTextBox->SetValue(UserSettings->MouseSensitivity);
 		}
-		if (SensitivityTextBox)
+		if (FOVSliderTextBox)
 		{
-			SensitivityTextBox->SetText(FText::AsNumber(UserSettings->MouseSensitivity));
+			FOVSliderTextBox->SetValue(UserSettings->FieldOfView);
 		}
-		FOVSlider->SetValue(UserSettings->FieldOfView);
 	}
 
 }
@@ -51,22 +50,25 @@ void UGameSettingsMenu::NativeConstruct()
 		ApplyButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::ApplyOnClicked);
 	}
 
-	if (SensitivitySlider && SensitivityTextBox)
+	if (SensitivitySliderTextBox)
 	{
-		SensitivitySlider->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnSensitivitySliderChanged);
-		SensitivityTextBox->OnTextChanged.AddDynamic(this, &UGameSettingsMenu::OnSensitivityTextBoxChanged);
+		SensitivitySliderTextBox->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnSensitivitySliderChanged);
+	}
+	
+	if (FOVSliderTextBox)
+	{
+		FOVSliderTextBox->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnFOVSliderChanged);
 	}
 }
 
 void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
 {
-		SensitivityTextBox->SetText(FText::AsNumber(NewValue));
+	SensitivitySliderTextBox->SetValue(NewValue);
 }
 
-void UGameSettingsMenu::OnSensitivityTextBoxChanged(const FText& NewText)
+void UGameSettingsMenu::OnFOVSliderChanged(float NewValue)
 {
-		float NewValue = FCString::Atof(*NewText.ToString());
-		SensitivitySlider->SetValue(NewValue);
+	FOVSliderTextBox->SetValue(NewValue);
 }
 
 void UGameSettingsMenu::ApplyOnClicked()
@@ -74,8 +76,8 @@ void UGameSettingsMenu::ApplyOnClicked()
 	if (UserSettings)
 	{
 		UserSettings->CurrentGameProfile = ProfileComboBox->GetSelectedOption();
-		UserSettings->MouseSensitivity = SensitivitySlider->GetValue();
-		UserSettings->FieldOfView = FOVSlider->GetValue();
+		UserSettings->MouseSensitivity = SensitivitySliderTextBox->GetValue();
+		UserSettings->FieldOfView = FOVSliderTextBox->GetValue();
 
 		UserSettings->SaveSettings();
 

@@ -7,9 +7,8 @@
 #include "AimTrainerUserSettings.h"
 #include "GameProfileManager.h"
 #include "Components/ComboBoxString.h"
-#include "Components/Slider.h"
 #include "Components/Button.h"
-#include "Components/EditableTextBox.h"
+#include "SliderTextBox.h"
 #include "GameSettingsMenu.generated.h"
 
 UCLASS()
@@ -27,20 +26,18 @@ public:
 	
 	// Sensitivity
 	UPROPERTY(meta = (BindWidget))
-	USlider* SensitivitySlider;
-
-	UPROPERTY(meta = (BindWidget))
-	UEditableTextBox* SensitivityTextBox;
+	USliderTextBox* SensitivitySliderTextBox;
 
 	UFUNCTION()
 	void OnSensitivitySliderChanged(float NewValue);
 
-	UFUNCTION()
-	void OnSensitivityTextBoxChanged(const FText& NewText);
-
+	// FOV
 	UPROPERTY(meta = (BindWidget))
-	USlider* FOVSlider;
+	USliderTextBox* FOVSliderTextBox;
 
+	UFUNCTION()
+	void OnFOVSliderChanged(float NewValue);
+	
 	UPROPERTY(meta = (BindWidget))
 	UButton* ApplyButton;
 
