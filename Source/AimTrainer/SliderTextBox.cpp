@@ -21,8 +21,7 @@ float USliderTextBox::GetValue()
 
 void USliderTextBox::SetValue(float NewValue)
 {
-	CurrentValue = FMath::Clamp(NewValue, MinValue, MaxValue);
-
+	CurrentValue = NewValue;
 	if (Slider)
 	{
 		Slider->SetValue(CurrentValue);
@@ -36,17 +35,19 @@ void USliderTextBox::SetValue(float NewValue)
 
 void USliderTextBox::HandleSliderChanged(float NewValue)
 {
+	CurrentValue = NewValue;
 	if (TextBox)
 	{
-		TextBox->SetText(FText::AsNumber(NewValue));
+		TextBox->SetText(FText::AsNumber(CurrentValue));
 	}
 }
 
 void USliderTextBox::HandleTextBoxChanged(const FText& NewText)
 {
+	float NewValue = FCString::Atof(*NewText.ToString());
+	CurrentValue = NewValue;
 	if (Slider)
 	{
-		float NewValue = FCString::Atof(*NewText.ToString());
 		Slider->SetValue(NewValue);
 	}
 }

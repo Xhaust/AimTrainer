@@ -24,12 +24,6 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UEditableTextBox* TextBox;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-	float MinValue = 10.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-	float MaxValue = 100.0f;
-
 	UPROPERTY(BlueprintAssignable, Category = "Settings")
 	FOnSettingValueChanged OnValueChanged;
 
