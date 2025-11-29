@@ -63,12 +63,10 @@ void UGameSettingsMenu::NativeConstruct()
 
 void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
 {
-	SensitivitySliderTextBox->SetValue(NewValue);
 }
 
 void UGameSettingsMenu::OnFOVSliderChanged(float NewValue)
 {
-	FOVSliderTextBox->SetValue(NewValue);
 }
 
 void UGameSettingsMenu::ApplyOnClicked()
