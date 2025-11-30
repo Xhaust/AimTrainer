@@ -48,6 +48,6 @@ void USliderTextBox::HandleTextBoxChanged(const FText& NewText)
 	CurrentValue = NewValue;
 	if (Slider)
 	{
-		Slider->SetValue(NewValue);
+		Slider->SetValue(CurrentValue);
 	}
 }
