@@ -40,6 +40,8 @@ void USliderTextBox::HandleSliderChanged(float NewValue)
 	{
 		TextBox->SetText(FText::AsNumber(CurrentValue));
 	}
+	UE_LOG(LogTemp, Verbose, TEXT("SliderTextBox: broadcasting NewValue=%f"), CurrentValue);
+	OnValueChanged.Broadcast(CurrentValue);
 }
 
 void USliderTextBox::HandleTextBoxChanged(const FText& NewText)
@@ -50,4 +52,6 @@ void USliderTextBox::HandleTextBoxChanged(const FText& NewText)
 	{
 		Slider->SetValue(CurrentValue);
 	}
+	UE_LOG(LogTemp, Verbose, TEXT("SliderTextBox: broadcasting NewValue=%f"), CurrentValue);
+	OnValueChanged.Broadcast(CurrentValue);
 }
