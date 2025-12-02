@@ -7,6 +7,11 @@ void USliderTextBox::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	if (Text)
+	{
+		Text->SetText(LabelText);
+	}
+
 	if (Slider && TextBox)
 	{
 		Slider->OnValueChanged.AddDynamic(this, &USliderTextBox::HandleSliderChanged);

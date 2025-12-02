@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "Components/Slider.h"
 #include "Components/EditableTextBox.h"
 #include "SliderTextBox.generated.h"
@@ -18,13 +19,19 @@ class AIMTRAINER_API USliderTextBox : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
+	UPROPERTY(EditAnywhere, Category = "SliderTextBox")
+	FText LabelText;
+	
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* Text;
+
 	UPROPERTY(meta = (BindWidget))
 	USlider* Slider;
 	
 	UPROPERTY(meta = (BindWidget))
 	UEditableTextBox* TextBox;
 
-	UPROPERTY(BlueprintAssignable, Category = "Settings")
+	UPROPERTY()
 	FOnSettingValueChanged OnValueChanged;
 
 	void SetValue(float NewValue);
