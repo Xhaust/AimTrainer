@@ -14,6 +14,8 @@ void USliderTextBox::NativeConstruct()
 
 	if (Slider && TextBox)
 	{
+		Slider->SetMinValue(MinValue);
+		Slider->SetMaxValue(MaxValue);
 		Slider->OnValueChanged.AddDynamic(this, &USliderTextBox::HandleSliderChanged);
 		TextBox->OnTextChanged.AddDynamic(this, &USliderTextBox::HandleTextBoxChanged);
 	}
@@ -26,7 +28,7 @@ float USliderTextBox::GetValue()
 
 void USliderTextBox::SetValue(float NewValue)
 {
-	CurrentValue = NewValue;
+	CurrentValue = FMath::Clamp(NewValue, MinValue, MaxValue);
 	if (Slider)
 	{
 		Slider->SetValue(CurrentValue);
@@ -40,7 +42,7 @@ void USliderTextBox::SetValue(float NewValue)
 
 void USliderTextBox::HandleSliderChanged(float NewValue)
 {
-	CurrentValue = NewValue;
+	CurrentValue = FMath::Clamp(NewValue, MinValue, MaxValue);
 	if (TextBox)
 	{
 		TextBox->SetText(FText::AsNumber(CurrentValue));
@@ -52,7 +54,7 @@ void USliderTextBox::HandleSliderChanged(float NewValue)
 void USliderTextBox::HandleTextBoxChanged(const FText& NewText)
 {
 	float NewValue = FCString::Atof(*NewText.ToString());
-	CurrentValue = NewValue;
+	CurrentValue = FMath::Clamp(NewValue, MinValue, MaxValue);
 	if (Slider)
 	{
 		Slider->SetValue(CurrentValue);

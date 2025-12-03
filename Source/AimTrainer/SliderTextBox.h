@@ -34,6 +34,12 @@ public:
 	UPROPERTY()
 	FOnSettingValueChanged OnValueChanged;
 
+	UPROPERTY(EditAnywhere, Category = "SliderTextBox")
+	float MinValue = 0.0f;
+
+	UPROPERTY(EditAnywhere, Category = "SliderTextBox")
+	float MaxValue = 100.0f;
+
 	void SetValue(float NewValue);
 	float GetValue();
 	
