@@ -149,3 +149,15 @@ void APlayerCharacter::ToggleSettingsMenu()
 		}
 	}
 }
+
+void APlayerCharacter::ApplyFOV()
+{
+	if (Settings)
+	{
+		APlayerController* PlayerController = GetController<APlayerController>();
+		if (PlayerController)
+		{
+			PlayerController->PlayerCameraManager->SetFOV(Settings->FieldOfView);
+		}
+	}
+}
