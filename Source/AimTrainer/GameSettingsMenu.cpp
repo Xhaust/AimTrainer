@@ -2,7 +2,7 @@
 
 
 #include "GameSettingsMenu.h"
-
+#include "PlayerCharacter.h"
 
 void UGameSettingsMenu::NativeOnInitialized()
 {
@@ -78,6 +78,12 @@ void UGameSettingsMenu::ApplyOnClicked()
 		UserSettings->FieldOfView = FOVSliderTextBox->GetValue();
 
 		UserSettings->SaveSettings();
+
+		APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetOwningPlayerPawn());
+		if (PlayerCharacter)
+		{
+			PlayerCharacter->ApplyFOV();
+		}
 
 		UE_LOG(LogTemp, Log, TEXT("Settings applied: Profile=%s, Sensitivity=%f, FOV=%f"),
 			*UserSettings->CurrentGameProfile,

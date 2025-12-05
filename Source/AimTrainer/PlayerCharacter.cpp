@@ -43,6 +43,7 @@ void APlayerCharacter::BeginPlay()
 			Crosshair->AddToViewport();
 		}
 	}
+		ApplyFOV();
 }
 
 // Called every frame
