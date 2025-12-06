@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Target.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTargetDestroyedSignature, ATarget*, DestroyedTarget);
+
 UCLASS()
 class AIMTRAINER_API ATarget : public AActor
 {
@@ -22,6 +24,9 @@ public:
 	float CurrentHealth = 0.0f;
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	UPROPERTY(BlueprintAssignable)
+	FTargetDestroyedSignature OnTargetDestroyed;
 	
 protected:
 	// Called when the game starts or when spawned

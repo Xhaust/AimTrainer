@@ -34,6 +34,7 @@ float ATarget::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, A
 	if (CurrentHealth <= 0.0f)
 	{
 		Destroy();
+		OnTargetDestroyed.Broadcast(this);
 	}
 
 	return HealthBeforeDamage - CurrentHealth;
