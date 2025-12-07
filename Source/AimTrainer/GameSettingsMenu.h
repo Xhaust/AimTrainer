@@ -44,6 +44,12 @@ public:
 	UFUNCTION()
 	void ApplyOnClicked();
 
+	UPROPERTY(meta = (BindWidget))
+	UButton* ToggleGamemodeButton;
+
+	UFUNCTION()
+	void OnToggleGamemodeClicked();
+
 private:
 	UPROPERTY()
 	UAimTrainerUserSettings* UserSettings;

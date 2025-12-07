@@ -2,6 +2,8 @@
 
 
 #include "GameSettingsMenu.h"
+
+#include "AimTrainerGameMode.h"
 #include "PlayerCharacter.h"
 
 void UGameSettingsMenu::NativeOnInitialized()
@@ -59,6 +61,10 @@ void UGameSettingsMenu::NativeConstruct()
 	{
 		FOVSliderTextBox->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnFOVSliderChanged);
 	}
+	if (ToggleGamemodeButton)
+	{
+		ToggleGamemodeButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnToggleGamemodeClicked);
+	}
 }
 
 void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
@@ -89,5 +95,14 @@ void UGameSettingsMenu::ApplyOnClicked()
 			*UserSettings->CurrentGameProfile,
 			UserSettings->MouseSensitivity,
 			UserSettings->FieldOfView);
+	}
+}
+
+void UGameSettingsMenu::OnToggleGamemodeClicked()
+{
+	AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode());
+	if (GameMode)
+	{
+		GameMode->ToggleGameMode();
 	}
 }
