@@ -23,6 +23,7 @@ void AAimTrainerGameMode::StartSession()
 	if (CurrentMode == EGameModeType::TimedSession)
 	{
 		TimeRemaining = SessionDuration;
+		PlayerScore = 0;
 
 		GetWorldTimerManager().SetTimer(
 			SessionTimerHandle,
