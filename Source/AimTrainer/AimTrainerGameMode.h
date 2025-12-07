@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "HUDWidget.h"
+#include "Target.h"
 #include "AimTrainerGameMode.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTimerUpdated, float, NewTime);
@@ -45,7 +47,24 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EndSession();
 
+	UFUNCTION(BlueprintCallable)
+	void HandleTargetDestroyed(ATarget* DestroyedTarget);
+
+	void AddScore(int32 Points);
+	
+	UFUNCTION(BlueprintCallable)
+	void ToggleGameMode();
+	
 private:
 	FTimerHandle SessionTimerHandle;
+
+	int32 PlayerScore = 0;
+
+	UPROPERTY(EditAnywhere)
+	UHUDWidget* HUDWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UHUDWidget> HUDWidgetClass;
+
 	
 };

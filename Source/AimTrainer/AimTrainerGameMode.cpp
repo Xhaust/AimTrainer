@@ -2,10 +2,15 @@
 
 
 #include "AimTrainerGameMode.h"
+#include "HUDWidget.h"
 
 void AAimTrainerGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HUDWidget = CreateWidget<UHUDWidget>(GetWorld(), HUDWidgetClass);
+	if (HUDWidget)
+		HUDWidget->AddToViewport();
 
 	if (CurrentMode == EGameModeType::TimedSession)
 	{
@@ -32,15 +37,55 @@ void AAimTrainerGameMode::StartSession()
 void AAimTrainerGameMode::EndSession()
 {
 	GetWorldTimerManager().ClearTimer(SessionTimerHandle);
+	PlayerScore = 0;
 }
 
 void AAimTrainerGameMode::TickSession()
 {
 	TimeRemaining -= 1.0f;
-
+	
+	if (HUDWidget)
+		HUDWidget->UpdateTimer(TimeRemaining);
+	
 	if (TimeRemaining <= 0.f)
 	{
 		EndSession();
 	}
 	OnTimerUpdated.Broadcast(TimeRemaining);
+}
+
+void AAimTrainerGameMode::HandleTargetDestroyed(ATarget* DestroyedTarget)
+{
+	AddScore(1);
+}
+
+void AAimTrainerGameMode::AddScore(int32 Points)
+{
+	PlayerScore += Points;
+	if (HUDWidget)
+	{
+		HUDWidget->UpdateScore(PlayerScore);
+	}
+}
+
+void AAimTrainerGameMode::ToggleGameMode()
+{
+	if (CurrentMode == EGameModeType::TimedSession)
+	{
+		CurrentMode = EGameModeType::Playground;
+		EndSession();
+		if (HUDWidget)
+		{
+			HUDWidget->UpdateGameModeText(TEXT("Playground"));
+		}
+	}
+	else
+	{
+		CurrentMode = EGameModeType::TimedSession;
+		StartSession();
+		if (HUDWidget)
+		{
+			HUDWidget->UpdateGameModeText(TEXT("Timed Session"));
+		}
+	}
 }
