@@ -41,15 +41,17 @@ void ATargetSpawner::SpawnTarget()
 	FVector RandomOffset = Origin + FMath::RandPointInBox(FBox::BuildAABB(Origin, SpawnAreaExtent));
 	FTransform SpawnTransform(FRotator::ZeroRotator, RandomOffset);
 
-	AActor* SpawnedTarget = GetWorld()->SpawnActor<AActor>(TargetClass, SpawnTransform);
+	ATarget* SpawnedTarget = GetWorld()->SpawnActor<ATarget>(TargetClass, SpawnTransform);
+	AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode());
 
 	if (SpawnedTarget)
 	{
-		SpawnedTarget->OnDestroyed.AddDynamic(this, &ATargetSpawner::OnTargetDestroyed);
+		SpawnedTarget->OnTargetDestroyed.AddDynamic(this, &ATargetSpawner::OnTargetDestroyed);
+		SpawnedTarget->OnTargetDestroyed.AddDynamic(GameMode, &AAimTrainerGameMode::HandleTargetDestroyed);
 	}
 }
 
-void ATargetSpawner::OnTargetDestroyed(AActor* DestroyedActor)
+void ATargetSpawner::OnTargetDestroyed(ATarget* DestroyedTarget)
 {
 	CurrentTargets = FMath::Max(0, CurrentTargets - 1);
 }

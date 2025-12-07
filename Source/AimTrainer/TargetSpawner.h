@@ -33,7 +33,7 @@ protected:
 	void SpawnTarget();
 
 	UFUNCTION()
-	void OnTargetDestroyed(AActor* DestroyedActor);
+	void OnTargetDestroyed(ATarget* DestroyedTarget);
 
 public:	
 	// Called every frame
