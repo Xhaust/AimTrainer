@@ -2,7 +2,7 @@
 
 
 #include "TargetSpawner.h"
-#include "Kismet/KismetMathLibrary.h"
+#include "AimTrainerGameMode.h"
 
 // Sets default values
 ATargetSpawner::ATargetSpawner()
