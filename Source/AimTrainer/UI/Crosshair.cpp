@@ -3,7 +3,7 @@
 
 #include "Crosshair.h"
 
-#include "AimTrainerUserSettings.h"
+#include "../Settings/AimTrainerUserSettings.h"
 
 void UCrosshair::NativeConstruct()
 {

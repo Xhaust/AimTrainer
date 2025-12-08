@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "AimTrainerUserSettings.h"
-#include "GameProfileManager.h"
+#include "../Settings/AimTrainerUserSettings.h"
+#include "../Settings/GameProfileManager.h"
 #include "Components/ComboBoxString.h"
 #include "Components/Button.h"
 #include "SliderTextBox.h"

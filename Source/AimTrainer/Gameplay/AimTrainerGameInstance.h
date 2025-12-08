@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "AimTrainerUserSettings.h"
+#include "../Settings/AimTrainerUserSettings.h"
 #include "AimTrainerGameInstance.generated.h"
 
 UCLASS()

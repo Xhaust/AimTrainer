@@ -2,7 +2,7 @@
 
 
 #include "AimTrainerGameMode.h"
-#include "HUDWidget.h"
+#include "../UI/HUDWidget.h"
 
 void AAimTrainerGameMode::BeginPlay()
 {

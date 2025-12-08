@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Crosshair.h"
-#include "GameSettingsMenu.h"
+#include "../UI/Crosshair.h"
+#include "../UI/GameSettingsMenu.h"
 #include "GameFramework/Character.h"
 #include "InputMappingContext.h"
 #include "Weapon.h"

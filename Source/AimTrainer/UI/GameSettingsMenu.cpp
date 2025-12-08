@@ -3,8 +3,8 @@
 
 #include "GameSettingsMenu.h"
 
-#include "AimTrainerGameMode.h"
-#include "PlayerCharacter.h"
+#include "../Gameplay/AimTrainerGameMode.h"
+#include "../Gameplay/PlayerCharacter.h"
 
 void UGameSettingsMenu::NativeOnInitialized()
 {

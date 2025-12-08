@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "HUDWidget.h"
+#include "../UI/HUDWidget.h"
 #include "Target.h"
 #include "AimTrainerGameMode.generated.h"
 
