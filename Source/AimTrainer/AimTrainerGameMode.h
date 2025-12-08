@@ -60,7 +60,7 @@ private:
 
 	int32 PlayerScore = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
 	UHUDWidget* HUDWidget;
 
 	UPROPERTY(EditAnywhere)
