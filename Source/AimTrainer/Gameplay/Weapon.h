@@ -23,10 +23,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	UPROPERTY(EditAnywhere, Category = "Weapon")
 	float Damage = 1.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	UPROPERTY(EditAnywhere, Category = "Weapon")
 	float FireRate = 0.025f;
 	
 	UPROPERTY(EditAnywhere, Category = "Weapon")

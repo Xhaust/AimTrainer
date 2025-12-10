@@ -11,10 +11,10 @@ struct FGameProfile
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Profile")
+	UPROPERTY(EditDefaultsOnly, Category = "Profile")
 	FString ProfileName = "CS2";
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Profile")
+	UPROPERTY(EditDefaultsOnly, Category = "Profile")
 	float ConversionScale = 1.0f;
 };
 
@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditAnywhere, Category="Profiles")
 	TArray<FGameProfile> Profiles;
 	
-	UFUNCTION(BlueprintCallable, Category = "Profiles")
+	UFUNCTION()
 	TArray<FGameProfile> GetProfiles();
 
 	float GetConversionScaleForProfile(const FString& ProfileName) const;

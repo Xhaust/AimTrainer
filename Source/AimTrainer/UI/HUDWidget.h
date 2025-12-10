@@ -14,13 +14,13 @@ class AIMTRAINER_API UHUDWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void UpdateTimer(int32 Seconds);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void UpdateScore(int32 NewScore);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void UpdateGameModeText(const FString& NewMode);
 
 	UPROPERTY(meta = (BindWidget))

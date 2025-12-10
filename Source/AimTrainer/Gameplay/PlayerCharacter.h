@@ -26,38 +26,38 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly)
 	UInputAction* LookAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly)
 	UInputAction* ShootAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly)
 	UInputMappingContext* BaseMappingContext;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AWeapon> DefaultWeaponClass;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	UPROPERTY()
 	AWeapon* CurrentWeapon = nullptr;
 
 	void Look(const FInputActionValue& Value);
 	void StartFire();
 	void StopFire();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly)
 	UInputAction* ToggleSettingsAction;
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void ToggleSettingsMenu();
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameSettingsMenu> SettingsMenuClass;
 
 	UPROPERTY()
 	UGameSettingsMenu* SettingsMenu;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Crosshair")
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UCrosshair> CrosshairClass;
 
 	UPROPERTY()

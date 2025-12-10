@@ -13,22 +13,22 @@ class AIMTRAINER_API UAimTrainerUserSettings : public UGameUserSettings
 	
 public:
 
-	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category="Controls")
+	UPROPERTY(Config, EditDefaultsOnly, Category="Controls")
 	FString CurrentGameProfile = "CS2";
 	
-	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Controls")
+	UPROPERTY(Config, EditDefaultsOnly, Category = "Controls")
 	float MouseSensitivity = 1.0f;
 
-	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Controls")
+	UPROPERTY(Config, EditDefaultsOnly, Category = "Controls")
 	float FieldOfView = 90.0f;
 
-	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Crosshair")
+	UPROPERTY(Config, EditAnywhere, Category = "Crosshair")
 	TSoftObjectPtr<UTexture2D> CrosshairTexture = TSoftObjectPtr<UTexture2D>(FSoftObjectPath(TEXT("/Game/Crosshairs/Dot.Dot")));
 
-	UPROPERTY(Config, EditAnywhere, BlueprintReadWrite, Category = "Crosshair")
+	UPROPERTY(Config, EditAnywhere, Category = "Crosshair")
 	float CrosshairScale = 1.0f;
 
-	UFUNCTION(BlueprintCallable, Category = "Settings")
+	UFUNCTION()
 	static UAimTrainerUserSettings* GetAimTrainerUserSettings();
 };
 

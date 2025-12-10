@@ -15,7 +15,7 @@ class AIMTRAINER_API UAimTrainerGameInstance : public UGameInstance
 public:
 	virtual void Init()override;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	UAimTrainerUserSettings* GetAimTrainerUserSettings() const { return AimTrainerUserSettings; }
 
 private:

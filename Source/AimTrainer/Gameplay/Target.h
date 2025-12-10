@@ -17,15 +17,15 @@ public:
 	// Sets default values for this actor's properties
 	ATarget();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target")
+	UPROPERTY(EditDefaultsOnly)
 	float MaxHealth = 1.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Target")
+	UPROPERTY()
 	float CurrentHealth = 0.0f;
 
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY()
 	FTargetDestroyedSignature OnTargetDestroyed;
 	
 protected:

@@ -26,33 +26,33 @@ public:
 
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Mode")
+	UPROPERTY()
 	EGameModeType CurrentMode = EGameModeType::Playground;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Mode|Timer")
+	UPROPERTY(EditAnywhere)
 	float SessionDuration = 30.0f;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Game Mode|Timer")
+	UPROPERTY()
 	float TimeRemaining = 0.f;
 
 	UPROPERTY()
 	FTimerUpdated OnTimerUpdated;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void StartSession();
 
 	UFUNCTION()
 	void TickSession();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void EndSession();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void HandleTargetDestroyed(ATarget* DestroyedTarget);
 
 	void AddScore(int32 Points);
 	
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void ToggleGameMode();
 	
 private:
