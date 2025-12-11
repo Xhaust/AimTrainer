@@ -58,7 +58,7 @@ public:
 private:
 	FTimerHandle SessionTimerHandle;
 
-	int32 PlayerScore = 0;
+	float PlayerScore = 0.f;
 
 	UPROPERTY()
 	UHUDWidget* HUDWidget;

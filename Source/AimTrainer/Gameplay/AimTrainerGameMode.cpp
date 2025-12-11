@@ -23,7 +23,7 @@ void AAimTrainerGameMode::StartSession()
 	if (CurrentMode == EGameModeType::TimedSession)
 	{
 		TimeRemaining = SessionDuration;
-		PlayerScore = 0;
+		PlayerScore = 0.f;
 
 		GetWorldTimerManager().SetTimer(
 			SessionTimerHandle,
@@ -38,7 +38,7 @@ void AAimTrainerGameMode::StartSession()
 void AAimTrainerGameMode::EndSession()
 {
 	GetWorldTimerManager().ClearTimer(SessionTimerHandle);
-	PlayerScore = 0;
+	PlayerScore = 0.0f;
 }
 
 void AAimTrainerGameMode::TickSession()
@@ -57,7 +57,7 @@ void AAimTrainerGameMode::TickSession()
 
 void AAimTrainerGameMode::HandleTargetDestroyed(ATarget* DestroyedTarget)
 {
-	AddScore(1);
+	AddScore(1.0f);
 }
 
 void AAimTrainerGameMode::AddScore(int32 Points)
