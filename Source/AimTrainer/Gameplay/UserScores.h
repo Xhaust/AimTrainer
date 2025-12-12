@@ -7,7 +7,28 @@
 #include "UserScores.generated.h"
 
 USTRUCT(BlueprintType)
-struct FScenarioScore
+struct FScenarioScoreEntry
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	float Score = .0f;
+
+	UPROPERTY()
+	FString Date;
+
+	FScenarioScoreEntry() {}
+
+	FScenarioScoreEntry(float InScore)
+		: Score(InScore)
+	{
+		Date = FDateTime::Now().ToIso8601();
+	}
+	
+};
+
+USTRUCT(BlueprintType)
+struct FScenarioScores
 {
 	GENERATED_BODY()
 
@@ -15,11 +36,18 @@ struct FScenarioScore
 	FString ScenarioName;
 
 	UPROPERTY()
+	TArray<FScenarioScoreEntry> History;
+	
+	UPROPERTY()
 	float HighScore = .0f;
 
-	UPROPERTY()
-	float LastScore = .0f;
+	FScenarioScores() {}
+
+	FScenarioScores(const FString& InScenarioName)
+		: ScenarioName(InScenarioName)
+	{}
 };
+
 UCLASS()
 class AIMTRAINER_API UUserScores : public USaveGame
 {
@@ -27,5 +55,5 @@ class AIMTRAINER_API UUserScores : public USaveGame
 
 public:
 	UPROPERTY()
-	TArray<FScenarioScore> ScenarioScores;
+	TArray<FScenarioScores> ScenarioScores;
 };
