@@ -13,6 +13,9 @@ class AIMTRAINER_API UScoreboard : public UUserWidget
 {
 	GENERATED_BODY()
 
+protected:
+	virtual void NativeOnInitialized() override;
+	
 public:
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ScenarioNameText;
