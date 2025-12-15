@@ -54,7 +54,10 @@ public:
 	
 	UFUNCTION()
 	void ToggleGameMode();
-	
+
+	UFUNCTION()
+	void SaveScore(const FString& ScenarioName, float Score);
+
 private:
 	FTimerHandle SessionTimerHandle;
 
@@ -65,6 +68,5 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UHUDWidget> HUDWidgetClass;
-
 	
 };

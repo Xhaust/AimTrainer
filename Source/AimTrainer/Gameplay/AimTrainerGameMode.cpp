@@ -2,7 +2,9 @@
 
 
 #include "AimTrainerGameMode.h"
+#include "UserScores.h"
 #include "../UI/HUDWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 void AAimTrainerGameMode::BeginPlay()
 {
@@ -89,4 +91,36 @@ void AAimTrainerGameMode::ToggleGameMode()
 			HUDWidget->UpdateGameModeText(TEXT("Timed Session"));
 		}
 	}
+}
+
+void AAimTrainerGameMode::SaveScore(
+	const FString& ScenarioName,
+	float Score)
+{
+	UUserScores* Save =
+		Cast<UUserScores>(UGameplayStatics::LoadGameFromSlot(TEXT("UserScores"), 0));
+
+	if (!Save)
+	{
+		Save = Cast<UUserScores>(
+			UGameplayStatics::CreateSaveGameObject(UUserScores::StaticClass()));
+	}
+
+	FScenarioScores* Scenario = Save->ScenarioScores.FindByPredicate(
+		[&](const FScenarioScores& S)
+		{
+			return S.ScenarioName == ScenarioName;
+		}
+	);
+
+	if (!Scenario)
+	{
+		Save->ScenarioScores.Add(FScenarioScores(ScenarioName));
+		Scenario = &Save->ScenarioScores.Last();
+	}
+
+	Scenario->History.Add(FScenarioScoreEntry(Score));
+	Scenario->HighScore = FMath::Max(Scenario->HighScore, Score);
+
+	UGameplayStatics::SaveGameToSlot(Save, TEXT("UserScores"), 0);
 }
