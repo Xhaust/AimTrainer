@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AimTrainer/Gameplay/UserScores.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ListView.h"
 #include "Components/TextBlock.h"

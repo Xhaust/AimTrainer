@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AimTrainer/UI/Scoreboard.h"
 #include "GameFramework/SaveGame.h"
 #include "UserScores.generated.h"
 
@@ -58,5 +57,5 @@ public:
 	UPROPERTY()
 	TArray<FScenarioScores> ScenarioScores;
 
-	TArray<float>* GetScoresForScenario(const FString& String);
+	TArray<float> GetScoresForScenario(const FString& String);
 };

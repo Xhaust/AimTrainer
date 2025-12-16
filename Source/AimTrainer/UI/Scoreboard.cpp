@@ -32,14 +32,11 @@ void UScoreboard::UpdateScoreboard()
 	if (!UserScores || !ScoreListView) return;
 
 	ScoreListView->ClearListItems();
-	TArray<float>* Scores = UserScores->GetScoresForScenario(CurrentScenarioName);
-	if (Scores)
+	TArray<float> Scores = UserScores->GetScoresForScenario(CurrentScenarioName);
+	for (float Score : Scores)
 	{
-		for (float Score : *Scores)
-		{
-			UTextBlock* ScoreItem = NewObject<UTextBlock>(this);
-			ScoreItem->SetText(FText::AsNumber(Score));
-			ScoreListView->AddItem(ScoreItem);
-		}
+		UTextBlock* ScoreItem = NewObject<UTextBlock>(this);
+		ScoreItem->SetText(FText::AsNumber(Score));
+		ScoreListView->AddItem(ScoreItem);
 	}
 }
