@@ -35,6 +35,9 @@ public:
 	UPROPERTY()
 	float TimeRemaining = 0.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Scenario")
+	FString CurrentScenarioName = TEXT("Tile Frenzy");
+
 	UPROPERTY()
 	FTimerUpdated OnTimerUpdated;
 
@@ -58,6 +61,9 @@ public:
 	UFUNCTION()
 	void SaveScore(const FString& ScenarioName, float Score);
 
+	UFUNCTION()
+	void ShowScoreboard();
+
 private:
 	FTimerHandle SessionTimerHandle;
 
@@ -68,5 +74,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UHUDWidget> HUDWidgetClass;
-	
+
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<UUserWidget> ScoreboardWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* ScoreboardWidget;
 };
