@@ -2,6 +2,8 @@
 
 
 #include "Scoreboard.h"
+#include "ScoreRow.h"
+#include "ScoreRowWidget.h"
 #include "AimTrainer/Gameplay/UserScores.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -35,8 +37,8 @@ void UScoreboard::UpdateScoreboard()
 	TArray<float> Scores = UserScores->GetScoresForScenario(CurrentScenarioName);
 	for (float Score : Scores)
 	{
-		UTextBlock* ScoreItem = NewObject<UTextBlock>(this);
-		ScoreItem->SetText(FText::AsNumber(Score));
+		UScoreRow* ScoreItem = NewObject<UScoreRow>(this);
+		ScoreItem->Score = Score;
 		ScoreListView->AddItem(ScoreItem);
 	}
 }
