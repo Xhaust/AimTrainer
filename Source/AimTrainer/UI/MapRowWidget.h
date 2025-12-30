@@ -9,7 +9,7 @@
 #include "MapRowWidget.generated.h"
 
 UCLASS()
-class AIMTRAINER_API UMapRowWidget : public UUserWidget, IUserObjectListEntry
+class AIMTRAINER_API UMapRowWidget : public UUserWidget, public IUserObjectListEntry
 {
 	GENERATED_BODY()
 
