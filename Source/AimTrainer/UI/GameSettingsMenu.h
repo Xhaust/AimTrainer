@@ -50,6 +50,12 @@ public:
 	UFUNCTION()
 	void OnToggleGamemodeClicked();
 
+	UPROPERTY(meta = (BindWidget))
+	UButton* ShowScoreboardButton;
+
+	UFUNCTION()
+	void OnShowScoreboardClicked();
+
 private:
 	UPROPERTY()
 	UAimTrainerUserSettings* UserSettings;

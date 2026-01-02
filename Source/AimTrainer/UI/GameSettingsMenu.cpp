@@ -65,6 +65,11 @@ void UGameSettingsMenu::NativeConstruct()
 	{
 		ToggleGamemodeButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnToggleGamemodeClicked);
 	}
+
+	if (ShowScoreboardButton)
+	{
+		ShowScoreboardButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnShowScoreboardClicked);
+	}
 }
 
 void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
@@ -104,5 +109,14 @@ void UGameSettingsMenu::OnToggleGamemodeClicked()
 	if (GameMode)
 	{
 		GameMode->ToggleGameMode();
+	}
+}
+
+void UGameSettingsMenu::OnShowScoreboardClicked()
+{
+	AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode());
+	if (GameMode)
+	{
+		GameMode->ShowScoreboard();
 	}
 }
