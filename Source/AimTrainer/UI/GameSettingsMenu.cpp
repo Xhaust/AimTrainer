@@ -5,6 +5,7 @@
 
 #include "../Gameplay/AimTrainerGameMode.h"
 #include "../Gameplay/PlayerCharacter.h"
+#include "AimTrainer/Gameplay/AimTrainerPlayerController.h"
 
 void UGameSettingsMenu::NativeOnInitialized()
 {
@@ -89,11 +90,11 @@ void UGameSettingsMenu::ApplyOnClicked()
 		UserSettings->FieldOfView = FOVSliderTextBox->GetValue();
 
 		UserSettings->SaveSettings();
-
-		APlayerCharacter* PlayerCharacter = Cast<APlayerCharacter>(GetOwningPlayerPawn());
-		if (PlayerCharacter)
+		
+		AAimTrainerPlayerController* PlayerController = Cast<AAimTrainerPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (PlayerController)
 		{
-			PlayerCharacter->ApplyFOV();
+			PlayerController->ApplyFOV();
 		}
 
 		UE_LOG(LogTemp, Log, TEXT("Settings applied: Profile=%s, Sensitivity=%f, FOV=%f"),
