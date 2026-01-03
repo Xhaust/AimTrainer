@@ -58,7 +58,7 @@ void AAimTrainerPlayerController::SetupInputComponent()
 		EIC->BindAction(ShootAction, ETriggerEvent::Completed, this,
 			&AAimTrainerPlayerController::HandleStopFire);
 
-		EIC->BindAction(ToggleSettingsAction, ETriggerEvent::Started, this,
+		EIC->BindAction(ToggleMenuAction, ETriggerEvent::Started, this,
 			&AAimTrainerPlayerController::HandleEscape);
 	}
 }

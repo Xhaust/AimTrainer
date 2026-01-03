@@ -48,7 +48,7 @@ private:
 	UInputAction* ShootAction;
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
-	UInputAction* ToggleSettingsAction;
+	UInputAction* ToggleMenuAction;
 
 	void HandleLook(const FInputActionValue& Value);
 	void HandleStartFire();
