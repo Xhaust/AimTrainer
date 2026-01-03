@@ -20,3 +20,17 @@ TArray<float> UUserScores::GetScoresForScenario(const FString& String)
 	}
 	return Result;
 }
+
+TArray<FScenarioScoreEntry> UUserScores::GetEntriesForScenario(const FString& ScenarioName)
+{
+	TArray<FScenarioScoreEntry> Result;
+	for (const FScenarioScores& Scenario : ScenarioScores)
+	{
+		if (Scenario.ScenarioName == ScenarioName)
+		{
+			Result = Scenario.History; // copy the entries (score + date)
+			break;
+		}
+	}
+	return Result;
+}

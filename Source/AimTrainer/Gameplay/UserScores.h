@@ -17,13 +17,10 @@ struct FScenarioScoreEntry
 	UPROPERTY()
 	FString Date;
 
-	FScenarioScoreEntry() {}
-
-	FScenarioScoreEntry(float InScore)
-		: Score(InScore)
-	{
-		Date = FDateTime::Now().ToIso8601();
-	}
+	FScenarioScoreEntry() = default;
+	FScenarioScoreEntry(float InScore, const FString& InDate)
+		: Score(InScore), Date(InDate)
+	{}
 	
 };
 
@@ -58,4 +55,6 @@ public:
 	TArray<FScenarioScores> ScenarioScores;
 
 	TArray<float> GetScoresForScenario(const FString& String);
+
+	TArray<FScenarioScoreEntry> GetEntriesForScenario(const FString& ScenarioName);
 };

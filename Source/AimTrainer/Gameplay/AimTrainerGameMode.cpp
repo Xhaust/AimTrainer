@@ -111,9 +111,7 @@ void AAimTrainerGameMode::ToggleGameMode()
 	}
 }
 
-void AAimTrainerGameMode::SaveScore(
-	const FString& ScenarioName,
-	float Score)
+void AAimTrainerGameMode::SaveScore(const FString& ScenarioName, float Score)
 {
 	UUserScores* Save =
 		Cast<UUserScores>(UGameplayStatics::LoadGameFromSlot(TEXT("UserScores"), 0));
@@ -137,7 +135,9 @@ void AAimTrainerGameMode::SaveScore(
 		Scenario = &Save->ScenarioScores.Last();
 	}
 
-	Scenario->History.Add(FScenarioScoreEntry(Score));
+	// format: Achieved on MM/DD/YYYY HH:MM:SS
+	const FString NowString = FDateTime::Now().ToString(TEXT("Achieved on %m/%d/%Y %H:%M:%S"));
+	Scenario->History.Add(FScenarioScoreEntry(Score, NowString));
 	Scenario->HighScore = FMath::Max(Scenario->HighScore, Score);
 
 	UGameplayStatics::SaveGameToSlot(Save, TEXT("UserScores"), 0);

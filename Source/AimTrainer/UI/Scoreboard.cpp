@@ -12,9 +12,7 @@ void UScoreboard::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	UserScores = Cast<UUserScores>(
-		UGameplayStatics::LoadGameFromSlot(TEXT("UserScores"), 0)
-	);
+	UserScores = Cast<UUserScores>(UGameplayStatics::LoadGameFromSlot(TEXT("UserScores"), 0));
 
 	if (UAimTrainerGameInstance* GI = GetGameInstance<UAimTrainerGameInstance>())
 	{
@@ -48,13 +46,20 @@ void UScoreboard::UpdateScoreboard()
 
 	ScoreListView->ClearListItems();
 
-	TArray<float> Scores =
-		UserScores->GetScoresForScenario(CurrentScenarioName);
+	// get entries (score + date)
+	TArray<FScenarioScoreEntry> Entries = UserScores->GetEntriesForScenario(CurrentScenarioName);
 
-	for (float Score : Scores)
+	// sort by score descending so highest scores appear first
+	Entries.Sort([](const FScenarioScoreEntry& A, const FScenarioScoreEntry& B)
+	{
+		return A.Score > B.Score;
+	});
+
+	for (const FScenarioScoreEntry& Entry : Entries)
 	{
 		UScoreRow* ScoreItem = NewObject<UScoreRow>(this);
-		ScoreItem->Score = Score;
+		ScoreItem->Score = Entry.Score;
+		ScoreItem->Date = Entry.Date; // populate the date so ScoreRowWidget can display it
 
 		ScoreListView->AddItem(ScoreItem);
 	}
