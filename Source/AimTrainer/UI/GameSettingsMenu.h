@@ -17,7 +17,7 @@ class AIMTRAINER_API UGameSettingsMenu : public UUserWidget
 	GENERATED_BODY()
 
 protected:
-	virtual void NativeOnInitialized()override;
+	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
 
 public:
@@ -44,17 +44,6 @@ public:
 	UFUNCTION()
 	void ApplyOnClicked();
 
-	UPROPERTY(meta = (BindWidget))
-	UButton* ToggleGamemodeButton;
-
-	UFUNCTION()
-	void OnToggleGamemodeClicked();
-
-	UPROPERTY(meta = (BindWidget))
-	UButton* ShowScoreboardButton;
-
-	UFUNCTION()
-	void OnShowScoreboardClicked();
 
 private:
 	UPROPERTY()

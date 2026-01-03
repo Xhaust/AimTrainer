@@ -33,6 +33,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Maps")
 	TArray<FMapInfo> AvailableMaps;
 
+	UPROPERTY(BlueprintReadWrite)
+	FString CurrentScenarioName = TEXT("Tile Frenzy");
+
 private:
 	UPROPERTY()
 	UAimTrainerUserSettings* AimTrainerUserSettings;

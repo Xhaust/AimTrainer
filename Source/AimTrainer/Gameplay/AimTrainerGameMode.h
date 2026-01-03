@@ -9,6 +9,7 @@
 #include "AimTrainerGameMode.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTimerUpdated, float, NewTime);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSessionEnded);
 
 UENUM(BlueprintType)
 enum class EGameModeType : uint8
@@ -35,11 +36,11 @@ public:
 	UPROPERTY()
 	float TimeRemaining = 0.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Scenario")
-	FString CurrentScenarioName = TEXT("Tile Frenzy");
-
 	UPROPERTY()
 	FTimerUpdated OnTimerUpdated;
+	
+	UPROPERTY()
+	FOnSessionEnded OnSessionEnded;
 
 	UFUNCTION()
 	void StartSession();
@@ -60,9 +61,6 @@ public:
 
 	UFUNCTION()
 	void SaveScore(const FString& ScenarioName, float Score);
-
-	UFUNCTION()
-	void ShowScoreboard();
 
 private:
 	FTimerHandle SessionTimerHandle;

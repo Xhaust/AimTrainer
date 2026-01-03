@@ -2,9 +2,10 @@
 
 
 #include "AimTrainerGameMode.h"
+#include "AimTrainerGameInstance.h"
+#include "AimTrainerPlayerController.h"
 #include "UserScores.h"
 #include "../UI/HUDWidget.h"
-#include "AimTrainer/UI/Scoreboard.h"
 #include "Kismet/GameplayStatics.h"
 
 void AAimTrainerGameMode::BeginPlay()
@@ -42,12 +43,21 @@ void AAimTrainerGameMode::EndSession()
 {
 	GetWorldTimerManager().ClearTimer(SessionTimerHandle);
 
-	if (CurrentMode == EGameModeType::TimedSession)
+	if (TimeRemaining <= .0f)
 	{
-		SaveScore(CurrentScenarioName, PlayerScore);
-		ShowScoreboard();
+		if (UAimTrainerGameInstance* GI = GetGameInstance<UAimTrainerGameInstance>())
+		{
+			SaveScore(GI->CurrentScenarioName, PlayerScore);
+		}
+
+		AAimTrainerPlayerController* PC = Cast<AAimTrainerPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (PC)
+		{
+			PC->OpenScoreboard();
+		}
+		
+		OnSessionEnded.Broadcast();
 	}
-	
 	PlayerScore = 0.0f;
 }
 
@@ -131,35 +141,4 @@ void AAimTrainerGameMode::SaveScore(
 	Scenario->HighScore = FMath::Max(Scenario->HighScore, Score);
 
 	UGameplayStatics::SaveGameToSlot(Save, TEXT("UserScores"), 0);
-}
-
-void AAimTrainerGameMode::ShowScoreboard()
-{
-	if (!ScoreboardWidgetClass) return;
-
-	if (!ScoreboardWidget)
-	{
-		ScoreboardWidget = CreateWidget<UUserWidget>(
-			GetWorld(),
-			ScoreboardWidgetClass
-		);
-	}
-
-	if (ScoreboardWidget)
-	{
-
-		if (UScoreboard* SB = Cast<UScoreboard>(ScoreboardWidget))
-		{
-			SB->SetScenarioName(CurrentScenarioName);
-		}
-		
-		ScoreboardWidget->AddToViewport();
-
-		APlayerController* PC = GetWorld()->GetFirstPlayerController();
-		if (PC)
-		{
-			PC->SetShowMouseCursor(true);
-			PC->SetInputMode(FInputModeUIOnly());
-		}
-	}
 }

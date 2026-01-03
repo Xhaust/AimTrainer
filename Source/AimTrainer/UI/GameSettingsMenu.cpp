@@ -2,9 +2,6 @@
 
 
 #include "GameSettingsMenu.h"
-
-#include "../Gameplay/AimTrainerGameMode.h"
-#include "../Gameplay/PlayerCharacter.h"
 #include "AimTrainer/Gameplay/AimTrainerPlayerController.h"
 
 void UGameSettingsMenu::NativeOnInitialized()
@@ -62,15 +59,6 @@ void UGameSettingsMenu::NativeConstruct()
 	{
 		FOVSliderTextBox->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnFOVSliderChanged);
 	}
-	if (ToggleGamemodeButton)
-	{
-		ToggleGamemodeButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnToggleGamemodeClicked);
-	}
-
-	if (ShowScoreboardButton)
-	{
-		ShowScoreboardButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnShowScoreboardClicked);
-	}
 }
 
 void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
@@ -91,33 +79,15 @@ void UGameSettingsMenu::ApplyOnClicked()
 
 		UserSettings->SaveSettings();
 		
-		AAimTrainerPlayerController* PlayerController = Cast<AAimTrainerPlayerController>(GetWorld()->GetFirstPlayerController());
-		if (PlayerController)
+		AAimTrainerPlayerController* PC = Cast<AAimTrainerPlayerController>(GetWorld()->GetFirstPlayerController());
+		if (PC)
 		{
-			PlayerController->ApplyFOV();
+			PC->ApplyFOV();
 		}
 
 		UE_LOG(LogTemp, Log, TEXT("Settings applied: Profile=%s, Sensitivity=%f, FOV=%f"),
 			*UserSettings->CurrentGameProfile,
 			UserSettings->MouseSensitivity,
 			UserSettings->FieldOfView);
-	}
-}
-
-void UGameSettingsMenu::OnToggleGamemodeClicked()
-{
-	AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode());
-	if (GameMode)
-	{
-		GameMode->ToggleGameMode();
-	}
-}
-
-void UGameSettingsMenu::OnShowScoreboardClicked()
-{
-	AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode());
-	if (GameMode)
-	{
-		GameMode->ShowScoreboard();
 	}
 }

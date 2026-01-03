@@ -7,6 +7,8 @@
 #include "InputAction.h"
 #include "AimTrainer/UI/Crosshair.h"
 #include "AimTrainer/UI/GameSettingsMenu.h"
+#include "AimTrainer/UI/MainMenu.h"
+#include "AimTrainer/UI/Scoreboard.h"
 #include "GameFramework/PlayerController.h"
 #include "AimTrainerPlayerController.generated.h"
 
@@ -17,6 +19,18 @@ class AIMTRAINER_API AAimTrainerPlayerController : public APlayerController
 
 public:
 	void ApplyFOV();
+	
+	UFUNCTION()
+	void OpenMainMenu();
+
+	UFUNCTION()
+	void OpenSettingsMenu();
+
+	UFUNCTION()
+	void OpenMapSelector();
+
+	UFUNCTION()
+	void OpenScoreboard();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -42,22 +56,40 @@ private:
 	void HandleEscape();
 
 	// ===== UI =====
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UMainMenu> MainMenuClass;
+	
+	UPROPERTY()
+	UMainMenu* MainMenu;
+
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UGameSettingsMenu> SettingsMenuClass;
+	
+	UPROPERTY()
+	UGameSettingsMenu* SettingsMenu;
 
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UMapSelectorWidget> MapSelectorClass;
+	
+	UPROPERTY()
+	UMapSelectorWidget* MapSelector;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UScoreboard> ScoreboardClass;
+	
+	UPROPERTY()
+	UScoreboard* Scoreboard;
+	
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UCrosshair> CrosshairClass;
 
 	UPROPERTY()
-	UGameSettingsMenu* SettingsMenu;
-
-	UPROPERTY()
 	UCrosshair* Crosshair;
 
-	bool bSettingsOpen = false;
-
-	void OpenSettingsMenu();
-	void CloseSettingsMenu();
+	UFUNCTION()
+	bool AnyMenuOpen() const;
+	void CloseAllMenus();
 
 	// ===== Settings =====
 	UPROPERTY()

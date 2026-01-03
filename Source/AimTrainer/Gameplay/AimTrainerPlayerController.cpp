@@ -3,6 +3,8 @@
 
 #include "AimTrainerPlayerController.h"
 
+#include "AimTrainerGameInstance.h"
+#include "AimTrainerGameMode.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "PlayerCharacter.h"
@@ -33,6 +35,11 @@ void AAimTrainerPlayerController::BeginPlay()
 		}
 	}
 
+	if (AAimTrainerGameMode* GM = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		GM->OnSessionEnded.AddDynamic(this, &ThisClass::OpenScoreboard);
+	}
+
 	ApplyFOV();
 }
 
@@ -60,7 +67,7 @@ void AAimTrainerPlayerController::SetupInputComponent()
 
 void AAimTrainerPlayerController::HandleLook(const FInputActionValue& Value)
 {
-	if (bSettingsOpen) return;
+	if (AnyMenuOpen()) return;
 
 	// get raw axis
 	const FVector2D RawLook = Value.Get<FVector2D>();
@@ -89,7 +96,7 @@ void AAimTrainerPlayerController::HandleLook(const FInputActionValue& Value)
 
 void AAimTrainerPlayerController::HandleStartFire()
 {
-	if (bSettingsOpen) return;
+	if (AnyMenuOpen()) return;
 
 	if (APlayerCharacter* PC = GetPawn<APlayerCharacter>())
 	{
@@ -107,20 +114,40 @@ void AAimTrainerPlayerController::HandleStopFire()
 
 void AAimTrainerPlayerController::HandleEscape()
 {
-	if (bSettingsOpen)
+	if (AnyMenuOpen())
 	{
-		CloseSettingsMenu();
+		CloseAllMenus();
 	}
 	else
 	{
-		OpenSettingsMenu();
+		OpenMainMenu();
 	}
 }
 
 // ===== UI =====
 
+void AAimTrainerPlayerController::OpenMainMenu()
+{
+	if (!MainMenu && MainMenuClass)
+	{
+		MainMenu = CreateWidget<UMainMenu>(this, MainMenuClass);
+	}
+
+	if (MainMenu)
+	{
+		MainMenu->AddToViewport();
+		FInputModeGameAndUI Mode;
+		Mode.SetHideCursorDuringCapture(false);
+		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		SetInputMode(Mode);
+		bShowMouseCursor = true;
+	}
+}
+
 void AAimTrainerPlayerController::OpenSettingsMenu()
 {
+	CloseAllMenus();
+
 	if (!SettingsMenu && SettingsMenuClass)
 	{
 		SettingsMenu = CreateWidget<UGameSettingsMenu>(this, SettingsMenuClass);
@@ -129,31 +156,68 @@ void AAimTrainerPlayerController::OpenSettingsMenu()
 	if (SettingsMenu)
 	{
 		SettingsMenu->AddToViewport();
-		bSettingsOpen = true;
-
 		FInputModeGameAndUI Mode;
-		Mode.SetWidgetToFocus(SettingsMenu->TakeWidget());
+		Mode.SetHideCursorDuringCapture(false);
 		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 		SetInputMode(Mode);
-
 		bShowMouseCursor = true;
 	}
 }
 
-void AAimTrainerPlayerController::CloseSettingsMenu()
+void AAimTrainerPlayerController::OpenMapSelector()
 {
-	if (SettingsMenu)
+	CloseAllMenus();
+
+	if (!MapSelector && MapSelectorClass)
 	{
-		SettingsMenu->RemoveFromParent();
-		SettingsMenu = nullptr;
+		MapSelector = CreateWidget<UMapSelectorWidget>(this, MapSelectorClass);
 	}
 
-	bSettingsOpen = false;
+	if (MapSelector)
+	{
+		MapSelector->AddToViewport();
+		FInputModeGameAndUI Mode;
+		Mode.SetHideCursorDuringCapture(false);
+		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		SetInputMode(Mode);
+		bShowMouseCursor = true;
+	}
+}
 
-	FInputModeGameOnly Mode;
-	SetInputMode(Mode);
+void AAimTrainerPlayerController::OpenScoreboard()
+{
+	CloseAllMenus();
+	
+	if (!Scoreboard && ScoreboardClass)
+	{
+		Scoreboard = CreateWidget<UScoreboard>(this, ScoreboardClass);
+	}
 
+	if (Scoreboard)
+	{
+		Scoreboard->AddToViewport();
+		FInputModeGameAndUI Mode;
+		Mode.SetHideCursorDuringCapture(false);
+		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		SetInputMode(Mode);
+		bShowMouseCursor = true;
+	}
+}
+
+void AAimTrainerPlayerController::CloseAllMenus()
+{
+	if (Scoreboard) { Scoreboard->RemoveFromParent(); Scoreboard = nullptr; }
+	if (MapSelector) { MapSelector->RemoveFromParent(); MapSelector = nullptr; }
+	if (SettingsMenu) { SettingsMenu->RemoveFromParent(); SettingsMenu = nullptr; }
+	if (MainMenu) { MainMenu->RemoveFromParent(); MainMenu = nullptr; }
+
+	SetInputMode(FInputModeGameOnly());
 	bShowMouseCursor = false;
+}
+
+bool AAimTrainerPlayerController::AnyMenuOpen() const
+{
+	return (Scoreboard || MapSelector || SettingsMenu || MainMenu);
 }
 
 // ===== Camera =====
