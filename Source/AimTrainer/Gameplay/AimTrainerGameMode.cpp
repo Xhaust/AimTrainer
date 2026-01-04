@@ -29,6 +29,12 @@ void AAimTrainerGameMode::StartSession()
 		TimeRemaining = SessionDuration;
 		PlayerScore = 0.f;
 
+		if (HUDWidget)
+		{
+			HUDWidget->UpdateTimer(TimeRemaining);
+			HUDWidget->UpdateScore(PlayerScore);
+		}
+
 		GetWorldTimerManager().SetTimer(
 			SessionTimerHandle,
 			this,
