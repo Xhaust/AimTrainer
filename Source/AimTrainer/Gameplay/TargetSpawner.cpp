@@ -38,7 +38,7 @@ void ATargetSpawner::SpawnTarget()
 
 	FVector Origin = GetActorLocation();
 
-	FVector RandomOffset = Origin + FMath::RandPointInBox(FBox::BuildAABB(Origin, SpawnAreaExtent));
+	FVector RandomOffset = FMath::RandPointInBox(FBox::BuildAABB(Origin, SpawnAreaExtent));
 	FTransform SpawnTransform(FRotator::ZeroRotator, RandomOffset);
 
 	ATarget* SpawnedTarget = GetWorld()->SpawnActor<ATarget>(TargetClass, SpawnTransform);
