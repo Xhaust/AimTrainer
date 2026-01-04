@@ -24,6 +24,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UListView* ScoreListView;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* RankText;
+
 	void SetScenarioName(const FString& ScenarioName);
 
 private:
