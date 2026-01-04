@@ -2,12 +2,33 @@
 
 
 #include "MapRowWidget.h"
-#include "MapEntryObject.h"
+#include "MapEntry.h"
+#include "AimTrainer/Gameplay/AimTrainerPlayerController.h"
 
-void UMapRowWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
+void UMapRowWidget::Init(const FMapEntry& InMapEntry)
 {
-	const UMapEntryObject* Entry = Cast<UMapEntryObject>(ListItemObject);
-	if (!Entry || !MapNameText) return;
+	MapEntry = InMapEntry;
 
-	MapNameText->SetText(FText::FromString(Entry->LabelName));
+	if (MapNameText)
+	{
+		MapNameText->SetText(FText::FromString(MapEntry.DisplayName));
+	}
+}
+
+void UMapRowWidget::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	if (SelectButton)
+	{
+		SelectButton->OnClicked.AddDynamic(this, &ThisClass::OnClicked);
+	}
+}
+
+void UMapRowWidget::OnClicked()
+{
+	if (AAimTrainerPlayerController* PC = Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
+	{
+		PC->LoadMap(MapEntry.MapName);
+	}
 }

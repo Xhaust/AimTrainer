@@ -47,7 +47,8 @@ void AAimTrainerGameMode::EndSession()
 	{
 		if (UAimTrainerGameInstance* GI = GetGameInstance<UAimTrainerGameInstance>())
 		{
-			SaveScore(GI->CurrentScenarioName, PlayerScore);
+			const FString MapName = GI->GetCurrentMapName();
+			SaveScore(MapName, PlayerScore);
 		}
 
 		AAimTrainerPlayerController* PC = Cast<AAimTrainerPlayerController>(GetWorld()->GetFirstPlayerController());
@@ -118,12 +119,10 @@ void AAimTrainerGameMode::SaveScore(const FString& ScenarioName, float Score)
 
 	if (!Save)
 	{
-		Save = Cast<UUserScores>(
-			UGameplayStatics::CreateSaveGameObject(UUserScores::StaticClass()));
+		Save = Cast<UUserScores>(UGameplayStatics::CreateSaveGameObject(UUserScores::StaticClass()));
 	}
 
-	FScenarioScores* Scenario = Save->ScenarioScores.FindByPredicate(
-		[&](const FScenarioScores& S)
+	FScenarioScores* Scenario = Save->ScenarioScores.FindByPredicate([&](const FScenarioScores& S)
 		{
 			return S.ScenarioName == ScenarioName;
 		}

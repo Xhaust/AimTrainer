@@ -31,6 +31,9 @@ public:
 
 	UFUNCTION()
 	void OpenScoreboard();
+
+	UFUNCTION()
+	void LoadMap(FName LevelName);
 	
 protected:
 	virtual void BeginPlay() override;

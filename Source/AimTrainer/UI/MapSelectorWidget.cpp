@@ -2,39 +2,43 @@
 
 
 #include "MapSelectorWidget.h"
-
-#include "MapEntryObject.h"
-#include "AimTrainer/Gameplay/AimTrainerGameInstance.h"
-#include "Kismet/GameplayStatics.h"
-
+#include "AssetRegistry/AssetRegistryModule.h"
+#include "MapEntry.h"
 
 void UMapSelectorWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-
-	if (!MapList) return;
-
-	MapList->ClearListItems();
-	MapList->OnItemClicked().AddUObject(this, &UMapSelectorWidget::HandleMapSelected);
-
-	if (UAimTrainerGameInstance* GI =
-		GetWorld()->GetGameInstance<UAimTrainerGameInstance>())
-	{
-		for (const FMapInfo& Map : GI->AvailableMaps)
-		{
-			UMapEntryObject* Entry = NewObject<UMapEntryObject>(this);
-			Entry->LabelName = Map.LabelName;
-			Entry->LevelName = Map.LevelName;
-
-			MapList->AddItem(Entry);
-		}
-	}
+	PopulateMaps();
 }
 
-void UMapSelectorWidget::HandleMapSelected(UObject* Item)
+void UMapSelectorWidget::PopulateMaps()
 {
-	UMapEntryObject* Entry = Cast<UMapEntryObject>(Item);
-	if (!Entry) return;
+	if (!MapListBox || !MapRowClass) return;
 
-	UGameplayStatics::OpenLevel(this, Entry->LevelName);
+	MapListBox->ClearChildren();
+
+	FAssetRegistryModule& AssetRegistry =
+		FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+
+	FARFilter Filter;
+	Filter.ClassPaths.Add(UWorld::StaticClass()->GetClassPathName());
+	Filter.PackagePaths.Add(FName("/Game/Maps"));
+	Filter.bRecursivePaths = true;
+
+	TArray<FAssetData> Maps;
+	AssetRegistry.Get().GetAssets(Filter, Maps);
+
+	for (const FAssetData& Asset : Maps)
+	{
+		FMapEntry Entry;
+		Entry.MapName = Asset.AssetName;
+		Entry.DisplayName = Asset.AssetName.ToString();
+
+		UMapRowWidget* Row = CreateWidget<UMapRowWidget>(this, MapRowClass);
+		if (Row)
+		{
+			Row->Init(Entry);
+			MapListBox->AddChild(Row);
+		}
+	}
 }

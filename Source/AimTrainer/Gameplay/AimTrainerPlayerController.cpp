@@ -2,12 +2,12 @@
 
 
 #include "AimTrainerPlayerController.h"
-
 #include "AimTrainerGameInstance.h"
 #include "AimTrainerGameMode.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "PlayerCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 void AAimTrainerPlayerController::BeginPlay()
 {
@@ -218,6 +218,15 @@ void AAimTrainerPlayerController::CloseAllMenus()
 bool AAimTrainerPlayerController::AnyMenuOpen() const
 {
 	return (Scoreboard || MapSelector || SettingsMenu || MainMenu);
+}
+
+void AAimTrainerPlayerController::LoadMap(FName MapName)
+{
+	if (MapName.IsNone()) return;
+
+	UGameplayStatics::OpenLevel(this, MapName);
+	CloseAllMenus();
+
 }
 
 // ===== Camera =====

@@ -16,7 +16,7 @@ void UScoreboard::NativeOnInitialized()
 
 	if (UAimTrainerGameInstance* GI = GetGameInstance<UAimTrainerGameInstance>())
 	{
-		SetScenarioName(GI->CurrentScenarioName);
+		SetScenarioName(GI->GetCurrentMapName());
 	}
 }
 

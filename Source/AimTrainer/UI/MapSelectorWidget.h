@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MapRowWidget.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/ListView.h"
+#include "Components/VerticalBox.h"
 #include "MapSelectorWidget.generated.h"
 
 UCLASS()
@@ -16,8 +17,10 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 	UPROPERTY(meta = (BindWidget))
-	UListView* MapList;
+	UVerticalBox* MapListBox;
 
-	UFUNCTION()
-	void HandleMapSelected(UObject* Item);
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UMapRowWidget> MapRowClass;
+
+	void PopulateMaps();
 };

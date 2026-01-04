@@ -13,3 +13,15 @@ void UAimTrainerGameInstance::Init()
 		AimTrainerUserSettings->LoadSettings();
 	}
 }
+
+FString UAimTrainerGameInstance::GetCurrentMapName() const
+{
+	if (!GetWorld()) return TEXT("Unknown");
+
+	FString MapName = GetWorld()->GetMapName();
+
+	// Remove PIE prefix (UEDPIE_0_)
+	MapName.RemoveFromStart(GetWorld()->StreamingLevelsPrefix);
+
+	return MapName;
+}
