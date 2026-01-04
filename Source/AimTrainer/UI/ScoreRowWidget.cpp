@@ -11,4 +11,9 @@ void UScoreRowWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
 
 	ScoreText->SetText(FText::AsNumber(Data->Score));
 	DateText->SetText(FText::FromString(Data->Date));
+
+	if (RankText)
+	{
+		RankText->SetText(FText::FromString(Data->Rank.IsEmpty() ? TEXT("N/A") : Data->Rank));
+	}
 }

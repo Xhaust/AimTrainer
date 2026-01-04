@@ -65,20 +65,20 @@ static FString GetRankFromScoreForScenario(const FString& ScenarioName, float Sc
 	// GroundPlaza (medium)
 	if (ScenarioName.Equals(TEXT("GroundPlaza"), ESearchCase::IgnoreCase))
 	{
-		if (Score >= 250.f) return TEXT("SS");
-		if (Score >= 180.f) return TEXT("S");
-		if (Score >= 130.f) return TEXT("A");
-		if (Score >= 90.f)  return TEXT("B");
-		if (Score >= 45.f)  return TEXT("C");
+		if (Score >= 1000.f) return TEXT("SS");
+		if (Score >= 900.f) return TEXT("S");
+		if (Score >= 800.f) return TEXT("A");
+		if (Score >= 600.f) return TEXT("B");
+		if (Score >= 400.f)  return TEXT("C");
 		return TEXT("D");
 	}
 
 	// Default thresholds (fallback)
-	if (Score >= 1000.f) return TEXT("SS");
-	if (Score >= 900.f) return TEXT("S");
-	if (Score >= 800.f) return TEXT("A");
-	if (Score >= 600.f) return TEXT("B");
-	if (Score >= 400.f)  return TEXT("C");
+	if (Score >= 200.f) return TEXT("SS");
+	if (Score >= 150.f) return TEXT("S");
+	if (Score >= 100.f) return TEXT("A");
+	if (Score >= 80.f) return TEXT("B");
+	if (Score >= 50.f)  return TEXT("C");
 	return TEXT("D");
 }
 
@@ -125,6 +125,7 @@ void UScoreboard::UpdateScoreboard()
 		UScoreRow* ScoreItem = NewObject<UScoreRow>(this);
 		ScoreItem->Score = Entry.Score;
 		ScoreItem->Date = Entry.Date;
+		ScoreItem->Rank = GetRankFromScoreForScenario(CurrentScenarioName, Entry.Score);
 		ScoreListView->AddItem(ScoreItem);
 	}
 }

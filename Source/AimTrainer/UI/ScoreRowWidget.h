@@ -22,4 +22,7 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* DateText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* RankText;
 };

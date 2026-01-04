@@ -16,4 +16,7 @@ public:
 
 	UPROPERTY()
 	FString Date;
+
+	UPROPERTY()
+	FString Rank;
 };
