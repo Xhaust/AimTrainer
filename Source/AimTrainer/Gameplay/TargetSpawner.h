@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Target.h"
 #include "GameFramework/Actor.h"
 #include "TargetSpawner.generated.h"
 
@@ -14,6 +15,14 @@ class AIMTRAINER_API ATargetSpawner : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ATargetSpawner();
+
+	// Track spawned targets for reliable reset
+	UPROPERTY()
+	TArray<ATarget*> SpawnedTargets;
+
+	// Reset spawner state and destroy any targets it spawned
+	UFUNCTION()
+	void ResetSpawner();
 
 protected:
 	// Called when the game starts or when spawned

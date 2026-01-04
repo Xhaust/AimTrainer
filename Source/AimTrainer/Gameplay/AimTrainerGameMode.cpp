@@ -4,6 +4,8 @@
 #include "AimTrainerGameMode.h"
 #include "AimTrainerGameInstance.h"
 #include "AimTrainerPlayerController.h"
+#include "EngineUtils.h"
+#include "TargetSpawner.h"
 #include "UserScores.h"
 #include "../UI/HUDWidget.h"
 #include "Kismet/GameplayStatics.h"
@@ -43,13 +45,18 @@ void AAimTrainerGameMode::StartSession()
 			true
 		);
 	}
+	AAimTrainerPlayerController* PC = Cast<AAimTrainerPlayerController>(GetWorld()->GetFirstPlayerController());
+	if (PC)
+	{
+		PC->CloseAllMenus();
+	}
 }
 
 void AAimTrainerGameMode::EndSession()
 {
 	GetWorldTimerManager().ClearTimer(SessionTimerHandle);
 
-	if (TimeRemaining <= .0f)
+	if (CurrentMode == EGameModeType::TimedSession && TimeRemaining <= 0.f)
 	{
 		if (UAimTrainerGameInstance* GI = GetGameInstance<UAimTrainerGameInstance>())
 		{
@@ -62,7 +69,7 @@ void AAimTrainerGameMode::EndSession()
 		{
 			PC->OpenScoreboard();
 		}
-		
+
 		OnSessionEnded.Broadcast();
 	}
 	PlayerScore = 0.0f;
@@ -146,4 +153,43 @@ void AAimTrainerGameMode::SaveScore(const FString& ScenarioName, float Score)
 	Scenario->HighScore = FMath::Max(Scenario->HighScore, Score);
 
 	UGameplayStatics::SaveGameToSlot(Save, TEXT("UserScores"), 0);
+}
+
+void AAimTrainerGameMode::RestartSession()
+{
+    // End any running session safely (assumes EndSession exists)
+    EndSession();
+
+    // Destroy all spawned targets so we start clean
+    for (TActorIterator<ATarget> It(GetWorld()); It; ++It)
+    {
+        if (IsValid(*It))
+        {
+            (*It)->Destroy();
+        }
+    }
+
+    // Reset all spawners so their internal counters are cleared
+    for (TActorIterator<ATargetSpawner> It(GetWorld()); It; ++It)
+    {
+        if (IsValid(*It))
+        {
+            (*It)->ResetSpawner();
+        }
+    }
+
+    // Respawn the local player pawn
+    APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+    if (PC)
+    {
+        APawn* Pawn = PC->GetPawn();
+        if (Pawn)
+        {
+            Pawn->Destroy();
+        }
+        RestartPlayer(PC);
+    }
+
+    // Start a fresh session
+    StartSession();
 }

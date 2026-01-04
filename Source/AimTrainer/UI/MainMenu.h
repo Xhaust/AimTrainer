@@ -24,6 +24,12 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* StartEndGameText;
 
+	UPROPERTY(meta = (BindWidget))
+	UButton* RestartButton;
+
+	UFUNCTION()
+	void OnRestartClicked();
+
 	UFUNCTION()
 	void OnStartGameClicked();
 	

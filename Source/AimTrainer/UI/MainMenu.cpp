@@ -24,6 +24,11 @@ void UMainMenu::NativeConstruct()
 		StartEndGameButton->OnClicked.AddDynamic(this, &UMainMenu::OnStartGameClicked);
 	}
 
+	if (RestartButton)
+	{
+		RestartButton->OnClicked.AddDynamic(this, &UMainMenu::OnRestartClicked);
+	}
+
 	if (SettingsButton)
 	{
 		SettingsButton->OnClicked.AddDynamic(this, &UMainMenu::OnSettingsMenuClicked);
@@ -51,6 +56,14 @@ void UMainMenu::OnStartGameClicked()
 			FText::FromString("End Game") :
 			FText::FromString("Start Game")
 		);
+	}
+}
+
+void UMainMenu::OnRestartClicked()
+{
+	if (AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		GameMode->RestartSession();
 	}
 }
 

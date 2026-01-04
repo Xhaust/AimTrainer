@@ -62,6 +62,10 @@ public:
 	UFUNCTION()
 	void SaveScore(const FString& ScenarioName, float Score);
 
+	// Restart the current session: end, clear targets/spawners, respawn player, start new session
+	UFUNCTION(BlueprintCallable)
+	void RestartSession();
+
 private:
 	FTimerHandle SessionTimerHandle;
 

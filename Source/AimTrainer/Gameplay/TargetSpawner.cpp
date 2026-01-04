@@ -37,7 +37,6 @@ void ATargetSpawner::SpawnTarget()
 	if (!TargetClass) return;
 
 	FVector Origin = GetActorLocation();
-
 	FVector RandomOffset = FMath::RandPointInBox(FBox::BuildAABB(Origin, SpawnAreaExtent));
 	FTransform SpawnTransform(FRotator::ZeroRotator, RandomOffset);
 
@@ -46,12 +45,34 @@ void ATargetSpawner::SpawnTarget()
 
 	if (SpawnedTarget)
 	{
+		// track spawned target
+		SpawnedTargets.Add(SpawnedTarget);
+
 		SpawnedTarget->OnTargetDestroyed.AddDynamic(this, &ATargetSpawner::OnTargetDestroyed);
-		SpawnedTarget->OnTargetDestroyed.AddDynamic(GameMode, &AAimTrainerGameMode::HandleTargetDestroyed);
+		if (GameMode)
+		{
+			SpawnedTarget->OnTargetDestroyed.AddDynamic(GameMode, &AAimTrainerGameMode::HandleTargetDestroyed);
+		}
 	}
 }
 
 void ATargetSpawner::OnTargetDestroyed(ATarget* DestroyedTarget)
 {
+	// adjust internal counters and remove from tracking
 	CurrentTargets = FMath::Max(0, CurrentTargets - 1);
+	SpawnedTargets.Remove(DestroyedTarget);
+}
+
+void ATargetSpawner::ResetSpawner()
+{
+	// destroy all tracked targets spawned by this spawner
+	for (ATarget* T : SpawnedTargets)
+	{
+		if (IsValid(T))
+		{
+			T->Destroy();
+		}
+	}
+	SpawnedTargets.Empty();
+	CurrentTargets = 0;
 }

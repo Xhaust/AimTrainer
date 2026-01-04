@@ -34,6 +34,9 @@ public:
 
 	UFUNCTION()
 	void LoadMap(FName LevelName);
+
+	UFUNCTION()
+	void CloseAllMenus();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -92,7 +95,6 @@ private:
 
 	UFUNCTION()
 	bool AnyMenuOpen() const;
-	void CloseAllMenus();
 
 	// ===== Settings =====
 	UPROPERTY()
