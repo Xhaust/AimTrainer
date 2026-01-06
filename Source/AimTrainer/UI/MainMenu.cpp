@@ -5,6 +5,7 @@
 
 #include "AimTrainer/Gameplay/AimTrainerGameMode.h"
 #include "AimTrainer/Gameplay/AimTrainerPlayerController.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 void UMainMenu::NativeConstruct()
 {
@@ -91,5 +92,14 @@ void UMainMenu::OnShowScoreboardClicked()
 		Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
 	{
 		PC->OpenScoreboard();
+	}
+}
+
+void UMainMenu::OnExitGameClicked()
+{
+	if (AAimTrainerPlayerController* PC =
+		Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
+	{
+		PC->ExitGame();
 	}
 }

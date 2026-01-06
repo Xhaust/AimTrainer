@@ -68,4 +68,10 @@ public:
 
 	UFUNCTION()
 	void OnShowScoreboardClicked();
+
+	UPROPERTY()
+	UButton* ExitGameButton;
+
+	UFUNCTION()
+	void OnExitGameClicked();
 };
