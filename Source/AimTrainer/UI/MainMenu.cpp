@@ -100,6 +100,6 @@ void UMainMenu::OnExitGameClicked()
 	if (AAimTrainerPlayerController* PC =
 		Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
 	{
-		PC->ExitGame();
+		UKismetSystemLibrary::QuitGame(this, PC, EQuitPreference::Quit, true);
 	}
 }
