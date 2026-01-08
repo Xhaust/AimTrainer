@@ -69,7 +69,7 @@ public:
 	UFUNCTION()
 	void OnShowScoreboardClicked();
 
-	UPROPERTY()
+	UPROPERTY(meta = (BindWidget))
 	UButton* ExitGameButton;
 
 	UFUNCTION()
