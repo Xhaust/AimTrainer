@@ -44,6 +44,11 @@ void UMainMenu::NativeConstruct()
 	{
 		ScoreboardButton->OnClicked.AddDynamic(this, &UMainMenu::OnShowScoreboardClicked);
 	}
+
+	if (ExitGameButton)
+	{
+		ExitGameButton->OnClicked.AddDynamic(this, &UMainMenu::OnExitGameClicked);
+	}
 }
 
 void UMainMenu::OnStartGameClicked()
