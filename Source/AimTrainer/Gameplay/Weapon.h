@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Sound/SoundBase.h"
 #include "Weapon.generated.h"
 
 UCLASS()
@@ -33,6 +34,9 @@ protected:
 	bool bAutomatic = false;
 
 	FTimerHandle FireTimer;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	USoundBase* FireSound;
 
 public:	
 	// Called every frame

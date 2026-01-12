@@ -82,4 +82,10 @@ void AWeapon::FireShot()
 		UGameplayStatics::ApplyDamage(Hit.GetActor(), Damage, PlayerController, this, nullptr);
 		//DrawDebugPoint(GetWorld(), Hit.ImpactPoint, 10.0f, FColor::Yellow, false, 10.0f);
 	}
+
+    if (FireSound)
+    {
+      UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+    }
+	
 }
