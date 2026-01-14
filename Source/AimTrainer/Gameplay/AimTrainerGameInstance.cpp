@@ -12,6 +12,10 @@ void UAimTrainerGameInstance::Init()
 	{
 		AimTrainerUserSettings->LoadSettings();
 	}
+
+	const FString CrosshairDir = FPaths::ProjectSavedDir() / TEXT("Crosshairs");
+
+	IFileManager::Get().MakeDirectory(*CrosshairDir, true);
 }
 
 FString UAimTrainerGameInstance::GetCurrentMapName() const
