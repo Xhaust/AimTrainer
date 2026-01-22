@@ -30,6 +30,9 @@ public:
 	void OpenMapSelector();
 
 	UFUNCTION()
+	void OpenCrosshairSelector();
+
+	UFUNCTION()
 	void OpenScoreboard();
 
 	UFUNCTION()
@@ -80,6 +83,12 @@ private:
 	
 	UPROPERTY()
 	UMapSelectorWidget* MapSelector;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UCrosshairSelectorWidget> CrosshairSelectorClass;
+
+	UPROPERTY()
+	UCrosshairSelectorWidget* CrosshairSelector;
 
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UScoreboard> ScoreboardClass;

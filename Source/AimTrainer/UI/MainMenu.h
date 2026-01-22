@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CrosshairSelectorWidget.h"
 #include "GameSettingsMenu.h"
 #include "MapSelectorWidget.h"
 #include "Scoreboard.h"
@@ -53,6 +54,15 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* MapSelectorButton;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UCrosshairSelectorWidget> CrosshairSelectorClass;
+
+	UPROPERTY()
+	UCrosshairSelectorWidget* CrosshairSelector;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* CrosshairSelectorButton;
 
 	UFUNCTION()
 	void OnMapSelectorClicked();

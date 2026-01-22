@@ -184,6 +184,26 @@ void AAimTrainerPlayerController::OpenMapSelector()
 	}
 }
 
+void AAimTrainerPlayerController::OpenCrosshairSelector()
+{
+	CloseAllMenus();
+
+	if (!CrosshairSelector && CrosshairSelectorClass)
+	{
+		CrosshairSelector = CreateWidget<UCrosshairSelectorWidget>(this, CrosshairSelectorClass);
+	}
+
+	if (CrosshairSelector)
+	{
+		CrosshairSelector->AddToViewport();
+		FInputModeGameAndUI Mode;
+		Mode.SetHideCursorDuringCapture(false);
+		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		SetInputMode(Mode);
+		bShowMouseCursor = true;
+	}
+}
+
 void AAimTrainerPlayerController::OpenScoreboard()
 {
 	CloseAllMenus();

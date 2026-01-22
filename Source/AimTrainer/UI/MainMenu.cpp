@@ -40,6 +40,11 @@ void UMainMenu::NativeConstruct()
 		MapSelectorButton->OnClicked.AddDynamic(this, &UMainMenu::OnMapSelectorClicked);
 	}
 
+	if (CrosshairSelectorButton)
+	{
+		CrosshairSelectorButton->OnClicked.AddDynamic(this, &UMainMenu::OnCrosshairSelectorClicked);
+	}
+
 	if (ScoreboardButton)
 	{
 		ScoreboardButton->OnClicked.AddDynamic(this, &UMainMenu::OnShowScoreboardClicked);
@@ -88,6 +93,15 @@ void UMainMenu::OnMapSelectorClicked()
 		Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
 	{
 		PC->OpenMapSelector();
+	}
+}
+
+void UMainMenu::OnCrosshairSelectorClicked()
+{
+	if (AAimTrainerPlayerController* PC =
+		Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
+	{
+		PC->OpenCrosshairSelector();
 	}
 }
 
