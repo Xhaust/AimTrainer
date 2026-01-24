@@ -65,6 +65,9 @@ public:
 	UButton* CrosshairSelectorButton;
 
 	UFUNCTION()
+	void OnCrosshairSelectorClicked();
+
+	UFUNCTION()
 	void OnMapSelectorClicked();
 	
 	UPROPERTY(EditDefaultsOnly, Category="UI")
