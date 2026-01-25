@@ -54,7 +54,10 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* MapSelectorButton;
-
+	
+	UFUNCTION()
+	void OnMapSelectorClicked();
+	
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UCrosshairSelectorWidget> CrosshairSelectorClass;
 
@@ -66,9 +69,6 @@ public:
 
 	UFUNCTION()
 	void OnCrosshairSelectorClicked();
-
-	UFUNCTION()
-	void OnMapSelectorClicked();
 	
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UScoreboard> ScoreboardWidgetClass;
