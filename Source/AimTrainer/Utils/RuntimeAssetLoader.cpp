@@ -5,7 +5,7 @@
 #include "IImageWrapper.h"
 #include "IImageWrapperModule.h"
 
-UTexture2D* LoadTextureFromFile(const FString& FilePath)
+UTexture2D* URuntimeAssetLoader::LoadTextureFromFile(const FString& FilePath)
 {
 	TArray<uint8> FileData;
 	if (!FFileHelper::LoadFileToArray(FileData, *FilePath))
