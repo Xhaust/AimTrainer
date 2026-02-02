@@ -230,6 +230,7 @@ void AAimTrainerPlayerController::CloseAllMenus()
 	if (MapSelector) { MapSelector->RemoveFromParent(); MapSelector = nullptr; }
 	if (SettingsMenu) { SettingsMenu->RemoveFromParent(); SettingsMenu = nullptr; }
 	if (MainMenu) { MainMenu->RemoveFromParent(); MainMenu = nullptr; }
+	if (CrosshairSelector) { CrosshairSelector->RemoveFromParent(); CrosshairSelector = nullptr; }
 
 	SetInputMode(FInputModeGameOnly());
 	bShowMouseCursor = false;
