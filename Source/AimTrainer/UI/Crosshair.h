@@ -12,6 +12,9 @@ class AIMTRAINER_API UCrosshair : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	void SetCrosshairTexture(UTexture2D* NewTexture);
+	
 protected:
 	virtual void NativeConstruct() override;
 	

@@ -17,3 +17,16 @@ void UCrosshair::NativeConstruct()
 			CrosshairImage->SetRenderScale(FVector2D(Settings->CrosshairScale));
 	}
 }
+
+void UCrosshair::SetCrosshairTexture(UTexture2D* NewTexture)
+{
+	if (!CrosshairImage || !NewTexture) return;
+
+	CrosshairImage->SetBrushFromTexture(NewTexture, true);
+
+	if (UAimTrainerUserSettings* Settings = UAimTrainerUserSettings::GetAimTrainerUserSettings())
+	{
+		Settings->CrosshairTexture = NewTexture;
+		Settings->SaveConfig();
+	}
+}
