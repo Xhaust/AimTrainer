@@ -40,6 +40,9 @@ public:
 
 	UFUNCTION()
 	void CloseAllMenus();
+
+	UFUNCTION()
+	void ApplyCrosshairFromFile(const FString& FilePath);
 	
 protected:
 	virtual void BeginPlay() override;

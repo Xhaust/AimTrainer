@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "PlayerCharacter.h"
+#include "AimTrainer/Utils/RuntimeAssetLoader.h"
 #include "Kismet/GameplayStatics.h"
 
 void AAimTrainerPlayerController::BeginPlay()
@@ -261,4 +262,17 @@ void AAimTrainerPlayerController::ApplyFOV()
 	{
 		PlayerCameraManager->SetFOV(Settings->FieldOfView);
 	}
+}
+
+
+void AAimTrainerPlayerController::ApplyCrosshairFromFile(const FString& FullPath)
+{
+	UTexture2D* Texture =
+		URuntimeAssetLoader::LoadTextureFromFile(FullPath);
+
+	if (!Texture || !Crosshair) return;
+
+	Crosshair->SetCrosshairTexture(Texture);
+
+	Crosshair->AddToViewport();
 }
