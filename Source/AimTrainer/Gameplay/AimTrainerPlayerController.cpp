@@ -237,7 +237,7 @@ void AAimTrainerPlayerController::CloseAllMenus()
 
 bool AAimTrainerPlayerController::AnyMenuOpen() const
 {
-	return (Scoreboard || MapSelector || SettingsMenu || MainMenu);
+	return (Scoreboard || MapSelector || SettingsMenu || MainMenu || CrosshairSelector);
 }
 
 void AAimTrainerPlayerController::LoadMap(FName MapName)
