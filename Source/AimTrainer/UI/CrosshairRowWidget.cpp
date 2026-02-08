@@ -18,7 +18,12 @@ void UCrosshairRowWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
 	UCrosshairItem* Item = Cast<UCrosshairItem>(ListItemObject);
 	if (!Item) return;
 
-	PreviewImage->SetBrushFromTexture(Item->PreviewTexture);
+	CrosshairItem = Item; // store the item so OnClicked can use it
+
+	if (PreviewImage && Item->PreviewTexture)
+	{
+		PreviewImage->SetBrushFromTexture(Item->PreviewTexture);
+	}
 }
 
 void UCrosshairRowWidget::OnClicked()
