@@ -26,7 +26,8 @@ void UCrosshairSelectorWidget::LoadCrosshairs()
 
 		Item->FileName = File;
 		Item->FullPath = Dir / File;
-		Item->PreviewTexture = URuntimeAssetLoader::LoadTextureFromFile(Item->FullPath);
+		URuntimeAssetLoader* Loader = NewObject<URuntimeAssetLoader>(this);
+		Item->PreviewTexture = Loader ? Loader->LoadTextureFromFile(Item->FullPath) : nullptr;
 
 		CrosshairList->AddItem(Item);
 	}

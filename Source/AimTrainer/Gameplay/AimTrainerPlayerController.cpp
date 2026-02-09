@@ -265,12 +265,12 @@ void AAimTrainerPlayerController::ApplyFOV()
 
 void AAimTrainerPlayerController::ApplyCrosshairFromFile(const FString& FullPath)
 {
-	UTexture2D* Texture =
-		URuntimeAssetLoader::LoadTextureFromFile(FullPath);
+	if (FullPath.IsEmpty() || !Crosshair) return;
 
-	if (!Texture || !Crosshair) return;
+	URuntimeAssetLoader* Loader = NewObject<URuntimeAssetLoader>(this);
+	UTexture2D* Texture = Loader ? Loader->LoadTextureFromFile(FullPath) : nullptr;
+
+	if (!Texture) return;
 
 	Crosshair->SetCrosshairTexture(Texture);
-
-	Crosshair->AddToViewport();
 }
