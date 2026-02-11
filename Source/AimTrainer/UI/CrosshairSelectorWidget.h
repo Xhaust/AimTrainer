@@ -14,7 +14,7 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 	UPROPERTY(meta = (BindWidget))
-	UListView* CrosshairList;
+	UListView* CrosshairTileView;
 
 	void LoadCrosshairs();
 };

@@ -11,9 +11,9 @@ void UCrosshairSelectorWidget::NativeOnInitialized()
 
 void UCrosshairSelectorWidget::LoadCrosshairs()
 {
-	if (!CrosshairList) return;
+	if (!CrosshairTileView) return;
 
-	CrosshairList->ClearListItems();
+	CrosshairTileView->ClearListItems();
 
 	const FString Dir = FPaths::ProjectSavedDir() / TEXT("Crosshairs");
 
@@ -29,6 +29,6 @@ void UCrosshairSelectorWidget::LoadCrosshairs()
 		URuntimeAssetLoader* Loader = NewObject<URuntimeAssetLoader>(this);
 		Item->PreviewTexture = Loader ? Loader->LoadTextureFromFile(Item->FullPath) : nullptr;
 
-		CrosshairList->AddItem(Item);
+		CrosshairTileView->AddItem(Item);
 	}
 }
