@@ -14,6 +14,15 @@ void UAimTrainerGameInstance::Init()
 	const FString CrosshairDir = FPaths::ProjectSavedDir() / TEXT("Crosshairs");
 
 	IFileManager::Get().MakeDirectory(*CrosshairDir, true);
+
+	FString SourcePath = FPaths::ProjectContentDir() / TEXT("Crosshairs/Dot.png");
+
+	FString DestPath = CrosshairDir / TEXT("Dot.png");
+
+	if (!FPaths::FileExists(DestPath))
+	{
+		IFileManager::Get().Copy(*DestPath, *SourcePath);
+	}
 }
 
 FString UAimTrainerGameInstance::GetCurrentMapName() const
