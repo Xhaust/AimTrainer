@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
 #include "Components/ListView.h"
 #include "CrosshairSelectorWidget.generated.h"
 
@@ -15,6 +16,9 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UListView* CrosshairTileView;
+	
+	UPROPERTY(meta = (BindWidget))
+	UButton* OpenDirectoryButton;
 
 	void LoadCrosshairs();
 };
