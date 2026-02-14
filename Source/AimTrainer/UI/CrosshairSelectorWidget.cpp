@@ -7,6 +7,11 @@ void UCrosshairSelectorWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 	LoadCrosshairs();
+
+	if (OpenDirectoryButton)
+	{
+		OpenDirectoryButton->OnClicked.AddDynamic(this, &ThisClass::OnOpenDirectoryClicked);
+	}
 }
 
 void UCrosshairSelectorWidget::LoadCrosshairs()
@@ -31,4 +36,10 @@ void UCrosshairSelectorWidget::LoadCrosshairs()
 
 		CrosshairTileView->AddItem(Item);
 	}
+}
+
+void UCrosshairSelectorWidget::OnOpenDirectoryClicked()
+{
+	const FString Dir = FPaths::ProjectSavedDir() / TEXT("Crosshairs");
+	FPlatformProcess::ExploreFolder(*Dir);
 }

@@ -20,5 +20,8 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	UButton* OpenDirectoryButton;
 
+	UFUNCTION()
+	void OnOpenDirectoryClicked();
+
 	void LoadCrosshairs();
 };
