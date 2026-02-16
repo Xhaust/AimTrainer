@@ -41,5 +41,7 @@ void UCrosshairSelectorWidget::LoadCrosshairs()
 void UCrosshairSelectorWidget::OnOpenDirectoryClicked()
 {
 	const FString Dir = FPaths::ProjectSavedDir() / TEXT("Crosshairs");
-	FPlatformProcess::ExploreFolder(*Dir);
+	IFileManager::Get().MakeDirectory(*Dir, true);
+	const FString AbsoluteDir = FPaths::ConvertRelativePathToFull(Dir);
+	FPlatformProcess::ExploreFolder(*AbsoluteDir);
 }
