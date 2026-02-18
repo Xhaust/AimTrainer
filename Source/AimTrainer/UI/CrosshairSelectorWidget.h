@@ -27,7 +27,5 @@ protected:
 	void OnOpenDirectoryClicked();
 
 	UFUNCTION()
-	void OnRefreshClicked();
-
 	void LoadCrosshairs();
 };

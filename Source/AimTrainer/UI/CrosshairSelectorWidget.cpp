@@ -12,6 +12,11 @@ void UCrosshairSelectorWidget::NativeOnInitialized()
 	{
 		OpenDirectoryButton->OnClicked.AddDynamic(this, &ThisClass::OnOpenDirectoryClicked);
 	}
+
+	if (RefreshButton)
+	{
+		RefreshButton->OnClicked.AddDynamic(this, &ThisClass::LoadCrosshairs);
+	}
 }
 
 void UCrosshairSelectorWidget::LoadCrosshairs()
