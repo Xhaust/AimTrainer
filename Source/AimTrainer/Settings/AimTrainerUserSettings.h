@@ -10,6 +10,23 @@ class AIMTRAINER_API UAimTrainerUserSettings : public UGameUserSettings
 	GENERATED_BODY()
 	
 public:
+	// ===== Video Settings =====
+	
+	// Resolution
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FIntPoint Resolution = FIntPoint(1920, 1080);
+	
+	// Fullscreen mode
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TEnumAsByte<EWindowMode::Type> WindowMode = EWindowMode::Fullscreen;
+
+	// Quality
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 OverallQuality = 3;
+
+	// VSync
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bVSync = false;
 
 	UPROPERTY(Config, EditDefaultsOnly, Category="Controls")
 	FString CurrentGameProfile = "CS2";
