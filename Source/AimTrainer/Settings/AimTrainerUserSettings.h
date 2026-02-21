@@ -28,18 +28,25 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bVSync = false;
 
+	// ===== Game Settings =====
+	
+	// Game profile
 	UPROPERTY(Config, EditDefaultsOnly, Category="Controls")
 	FString CurrentGameProfile = "CS2";
-	
+
+	// Mouse sensitivity
 	UPROPERTY(Config, EditDefaultsOnly, Category = "Controls")
 	float MouseSensitivity = 1.0f;
 
+	// Field of view
 	UPROPERTY(Config, EditDefaultsOnly, Category = "Controls")
 	float FieldOfView = 90.0f;
 
+	// Crosshair settings
 	UPROPERTY(Config, EditAnywhere, Category = "Crosshair")
 	TSoftObjectPtr<UTexture2D> CrosshairTexture = TSoftObjectPtr<UTexture2D>(FSoftObjectPath(TEXT("/Game/Crosshairs/Dot.Dot")));
 
+	// Crosshair scale
 	UPROPERTY(Config, EditAnywhere, Category = "Crosshair")
 	float CrosshairScale = 1.0f;
 
