@@ -163,6 +163,26 @@ void AAimTrainerPlayerController::OpenSettingsMenu()
 	}
 }
 
+void AAimTrainerPlayerController::OpenVideoSettingsMenu()
+{
+	CloseAllMenus();
+
+	if (!VideoSettingsMenu && VideoSettingsMenuClass)
+	{
+		VideoSettingsMenu = CreateWidget<UVideoSettingsMenu>(this, VideoSettingsMenuClass);
+	}
+
+	if (VideoSettingsMenu)
+	{
+		VideoSettingsMenu->AddToViewport();
+		FInputModeGameAndUI Mode;
+		Mode.SetHideCursorDuringCapture(false);
+		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		SetInputMode(Mode);
+		bShowMouseCursor = true;
+	}
+}
+
 void AAimTrainerPlayerController::OpenMapSelector()
 {
 	CloseAllMenus();
@@ -237,7 +257,7 @@ void AAimTrainerPlayerController::CloseAllMenus()
 
 bool AAimTrainerPlayerController::AnyMenuOpen() const
 {
-	return (Scoreboard || MapSelector || SettingsMenu || MainMenu || CrosshairSelector);
+	return (Scoreboard || MapSelector || SettingsMenu || VideoSettingsMenu || MainMenu || CrosshairSelector);
 }
 
 void AAimTrainerPlayerController::LoadMap(FName MapName)

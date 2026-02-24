@@ -7,6 +7,7 @@
 #include "AimTrainer/UI/GameSettingsMenu.h"
 #include "AimTrainer/UI/MainMenu.h"
 #include "AimTrainer/UI/Scoreboard.h"
+#include "AimTrainer/UI/VideoSettingsMenu.h"
 #include "GameFramework/PlayerController.h"
 #include "AimTrainerPlayerController.generated.h"
 
@@ -23,6 +24,9 @@ public:
 
 	UFUNCTION()
 	void OpenSettingsMenu();
+
+	UFUNCTION()
+	void OpenVideoSettingsMenu();
 
 	UFUNCTION()
 	void OpenMapSelector();
@@ -78,6 +82,12 @@ private:
 	
 	UPROPERTY()
 	UGameSettingsMenu* SettingsMenu;
+
+	UPROPERTY()
+	TSubclassOf<UVideoSettingsMenu> VideoSettingsMenuClass;
+	
+	UPROPERTY()
+	UVideoSettingsMenu* VideoSettingsMenu;
 
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UMapSelectorWidget> MapSelectorClass;
