@@ -5,6 +5,7 @@
 #include "GameSettingsMenu.h"
 #include "MapSelectorWidget.h"
 #include "Scoreboard.h"
+#include "VideoSettingsMenu.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "MainMenu.generated.h"
@@ -43,6 +44,18 @@ public:
 
 	UFUNCTION()
 	void OnSettingsMenuClicked();
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* VideoSettingsMenuButton;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UVideoSettingsMenu> VideoSettingsMenuClass;
+
+	UPROPERTY()
+	UVideoSettingsMenu* VideoSettingsMenu;
+
+	UFUNCTION()
+	void OnVideoSettingsMenuClicked();
 
 	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UMapSelectorWidget> MapSelectorClass;

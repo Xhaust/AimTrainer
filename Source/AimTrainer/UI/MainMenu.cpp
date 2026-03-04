@@ -32,6 +32,11 @@ void UMainMenu::NativeConstruct()
 	{
 		SettingsButton->OnClicked.AddDynamic(this, &UMainMenu::OnSettingsMenuClicked);
 	}
+
+	if (VideoSettingsMenuButton)
+	{
+		VideoSettingsMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OnVideoSettingsMenuClicked);
+	}
 	
 	if (MapSelectorButton)
 	{
@@ -82,6 +87,15 @@ void UMainMenu::OnSettingsMenuClicked()
 		Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
 	{
 		PC->OpenSettingsMenu();
+	}
+}
+
+void UMainMenu::OnVideoSettingsMenuClicked()
+{
+	if (AAimTrainerPlayerController* PC =
+		Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
+	{
+		PC->OpenVideoSettingsMenu();
 	}
 }
 
