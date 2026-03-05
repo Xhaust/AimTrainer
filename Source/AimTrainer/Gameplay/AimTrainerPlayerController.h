@@ -83,7 +83,7 @@ private:
 	UPROPERTY()
 	UGameSettingsMenu* SettingsMenu;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category="UI")
 	TSubclassOf<UVideoSettingsMenu> VideoSettingsMenuClass;
 	
 	UPROPERTY()
