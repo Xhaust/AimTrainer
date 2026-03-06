@@ -248,6 +248,7 @@ void AAimTrainerPlayerController::CloseAllMenus()
 	if (Scoreboard) { Scoreboard->RemoveFromParent(); Scoreboard = nullptr; }
 	if (MapSelector) { MapSelector->RemoveFromParent(); MapSelector = nullptr; }
 	if (SettingsMenu) { SettingsMenu->RemoveFromParent(); SettingsMenu = nullptr; }
+	if (VideoSettingsMenu) { VideoSettingsMenu->RemoveFromParent(); VideoSettingsMenu = nullptr; }
 	if (MainMenu) { MainMenu->RemoveFromParent(); MainMenu = nullptr; }
 	if (CrosshairSelector) { CrosshairSelector->RemoveFromParent(); CrosshairSelector = nullptr; }
 
