@@ -20,6 +20,26 @@ void UVideoSettingsMenu::NativeOnInitialized()
 	QualityCombo->AddOption("Epic");
 
 	ApplyButton->OnClicked.AddDynamic(this, &ThisClass::OnApplyClicked);
+
+	UAimTrainerUserSettings* UserSettings = UAimTrainerUserSettings::GetAimTrainerUserSettings();
+
+	if (UserSettings)
+	{
+		ResolutionCombo->SetSelectedOption(UserSettings->Resolution.ToString());
+
+		WindowModeCombo->SetSelectedOption(
+			UserSettings->WindowMode == EWindowMode::Fullscreen ? "Fullscreen" :
+			UserSettings->WindowMode == EWindowMode::Windowed ? "Windowed" : "Borderless"
+		);
+
+		QualityCombo->SetSelectedOption(
+			UserSettings->OverallQuality == 0 ? "Low" :
+			UserSettings->OverallQuality == 1 ? "Medium" :
+			UserSettings->OverallQuality == 2 ? "High" : "Epic"
+		);
+
+		VSyncCheckBox->SetIsChecked(UserSettings->bVSync);
+	}
 }
 
 void UVideoSettingsMenu::OnApplyClicked()
