@@ -25,7 +25,9 @@ void UVideoSettingsMenu::NativeOnInitialized()
 
 	if (UserSettings)
 	{
-		ResolutionCombo->SetSelectedOption(UserSettings->Resolution.ToString());
+		ResolutionCombo->SetSelectedOption(
+			UserSettings->Resolution == FIntPoint(1280, 720) ? "1280x720" :
+			UserSettings->Resolution == FIntPoint(1920, 1080) ? "1920x1080" : "2560x1440");
 
 		WindowModeCombo->SetSelectedOption(
 			UserSettings->WindowMode == EWindowMode::Fullscreen ? "Fullscreen" :
