@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "EnhancedInputSubsystemInterface.h"
 #include "InputAction.h"
+#include "AimTrainer/UI/ColorPicker.h"
 #include "AimTrainer/UI/Crosshair.h"
 #include "AimTrainer/UI/GameSettingsMenu.h"
 #include "AimTrainer/UI/MainMenu.h"
@@ -36,6 +37,9 @@ public:
 
 	UFUNCTION()
 	void OpenScoreboard();
+	
+	UFUNCTION()
+	void OpenColorPicker();
 
 	UFUNCTION()
 	void LoadMap(FName LevelName);
@@ -112,6 +116,12 @@ private:
 
 	UPROPERTY()
 	UCrosshair* Crosshair;
+	
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UColorPicker> ColorPickerClass;
+	
+	UPROPERTY()
+	UColorPicker* ColorPicker;
 
 	UFUNCTION()
 	bool AnyMenuOpen() const;

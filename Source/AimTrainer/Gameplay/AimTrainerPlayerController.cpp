@@ -243,6 +243,26 @@ void AAimTrainerPlayerController::OpenScoreboard()
 	}
 }
 
+void AAimTrainerPlayerController::OpenColorPicker()
+{
+	CloseAllMenus();
+
+	if (!ColorPicker && ColorPickerClass)
+	{
+		ColorPicker = CreateWidget<UColorPicker>(this, ColorPickerClass);
+	}
+
+	if (ColorPicker)
+	{
+		ColorPicker->AddToViewport();
+		FInputModeGameAndUI Mode;
+		Mode.SetHideCursorDuringCapture(false);
+		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		SetInputMode(Mode);
+		bShowMouseCursor = true;
+	}
+}
+
 void AAimTrainerPlayerController::CloseAllMenus()
 {
 	if (Scoreboard) { Scoreboard->RemoveFromParent(); Scoreboard = nullptr; }
@@ -251,6 +271,7 @@ void AAimTrainerPlayerController::CloseAllMenus()
 	if (VideoSettingsMenu) { VideoSettingsMenu->RemoveFromParent(); VideoSettingsMenu = nullptr; }
 	if (MainMenu) { MainMenu->RemoveFromParent(); MainMenu = nullptr; }
 	if (CrosshairSelector) { CrosshairSelector->RemoveFromParent(); CrosshairSelector = nullptr; }
+	if (ColorPicker) { ColorPicker->RemoveFromParent(); ColorPicker = nullptr; }
 
 	SetInputMode(FInputModeGameOnly());
 	bShowMouseCursor = false;
@@ -258,7 +279,7 @@ void AAimTrainerPlayerController::CloseAllMenus()
 
 bool AAimTrainerPlayerController::AnyMenuOpen() const
 {
-	return (Scoreboard || MapSelector || SettingsMenu || VideoSettingsMenu || MainMenu || CrosshairSelector);
+	return (Scoreboard || MapSelector || SettingsMenu || VideoSettingsMenu || MainMenu || CrosshairSelector || ColorPicker);
 }
 
 void AAimTrainerPlayerController::LoadMap(FName MapName)
