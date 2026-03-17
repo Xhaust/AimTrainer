@@ -57,6 +57,11 @@ void UGameSettingsMenu::NativeConstruct()
 	{
 		FOVSliderTextBox->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnFOVSliderChanged);
 	}
+	
+	if (ColorPickerButton)
+	{
+		ColorPickerButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnColorPickerButtonClicked);
+	}
 }
 
 void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
@@ -65,6 +70,15 @@ void UGameSettingsMenu::OnSensitivitySliderChanged(float NewValue)
 
 void UGameSettingsMenu::OnFOVSliderChanged(float NewValue)
 {
+}
+
+void UGameSettingsMenu::OnColorPickerButtonClicked()
+{
+	if (AAimTrainerPlayerController* PC =
+			Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
+	{
+		PC->OpenColorPicker();
+	}	
 }
 
 void UGameSettingsMenu::ApplyOnClicked()

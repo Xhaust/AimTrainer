@@ -36,6 +36,13 @@ public:
 	UFUNCTION()
 	void OnFOVSliderChanged(float NewValue);
 	
+	// Color Picker
+	UPROPERTY(meta = (BindWidget))
+	UButton* ColorPickerButton;
+	
+	UFUNCTION()
+	void OnColorPickerButtonClicked();
+	
 	UPROPERTY(meta = (BindWidget))
 	UButton* ApplyButton;
 
