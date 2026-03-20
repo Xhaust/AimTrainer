@@ -7,12 +7,17 @@
 #include "Components/WrapBox.h"
 #include "ColorPicker.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnColorSelectedSignature, FLinearColor, SelectedColor);
+
 UCLASS()
 class AIMTRAINER_API UColorPicker : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(BlueprintAssignable, Category = "Color Picker")
+	FOnColorSelectedSignature OnColorSelected;
+
 	UPROPERTY(meta = (BindWidget))
 	UWrapBox* ColorGrid;
 

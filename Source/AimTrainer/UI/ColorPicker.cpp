@@ -70,6 +70,8 @@ void UColorPicker::OnColorButtonClicked(FLinearColor Color)
 	{
 		HexText->SetText(FText::FromString(ToHex(Color)));
 	}
+
+	OnColorSelected.Broadcast(Color);
 }
 
 FLinearColor UColorPicker::ParseHexColor(const FString& HexString)
