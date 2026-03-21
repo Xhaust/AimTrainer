@@ -42,6 +42,10 @@ public:
 	UPROPERTY(Config, EditDefaultsOnly, Category = "Controls")
 	float FieldOfView = 90.0f;
 
+	// Target color
+	UPROPERTY(Config, EditAnywhere, Category = "Targets")
+	FLinearColor TargetColor = FLinearColor::Black;
+
 	// Crosshair settings
 	UPROPERTY(Config, EditAnywhere, Category = "Crosshair")
 	TSoftObjectPtr<UTexture2D> CrosshairTexture = TSoftObjectPtr<UTexture2D>(FSoftObjectPath(TEXT("/Game/Crosshairs/Dot.Dot")));
