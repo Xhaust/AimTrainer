@@ -1,5 +1,7 @@
 
 #include "Target.h"
+#include "AimTrainer/Settings/AimTrainerUserSettings.h"
+#include "Components/MeshComponent.h"
 
 // Sets default values
 ATarget::ATarget()
@@ -15,6 +17,32 @@ void ATarget::BeginPlay()
 	Super::BeginPlay();
 
 	CurrentHealth = MaxHealth;
+
+	if (UAimTrainerUserSettings* Settings = UAimTrainerUserSettings::GetAimTrainerUserSettings())
+	{
+		const FLinearColor SelectedColor = Settings->TargetColor;
+
+		TInlineComponentArray<UMeshComponent*> MeshComponents(this);
+		GetComponents(MeshComponents);
+
+		for (UMeshComponent* Mesh : MeshComponents)
+		{
+			if (!Mesh)
+			{
+				continue;
+			}
+
+			const int32 MaterialCount = Mesh->GetNumMaterials();
+			for (int32 i = 0; i < MaterialCount; i++)
+			{
+				if (UMaterialInstanceDynamic* DynamicMat = Mesh->CreateAndSetMaterialInstanceDynamic(i))
+				{
+					DynamicMat->SetVectorParameterValue(TEXT("TargetColor"), SelectedColor);
+					DynamicMat->SetVectorParameterValue(TEXT("Color"), SelectedColor);
+				}
+			}
+		}
+	}
 }
 
 // Called every frame
