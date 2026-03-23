@@ -277,6 +277,58 @@ void AAimTrainerPlayerController::CloseAllMenus()
 	bShowMouseCursor = false;
 }
 
+void AAimTrainerPlayerController::HandleColorSelected(FLinearColor SelectedColor)
+{
+	if (UserSettings)
+	{
+		UserSettings->TargetColor = SelectedColor;
+		UserSettings->SaveSettings();
+	}
+
+	ApplyTargetColorToLiveTargets(SelectedColor);
+}
+
+void AAimTrainerPlayerController::ApplyTargetColorToLiveTargets(const FLinearColor& SelectedColor) const
+{
+	if (!GetWorld())
+	{
+		return;
+	}
+
+	TArray<AActor*> TargetActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATarget::StaticClass(), TargetActors);
+
+	for (AActor* TargetActor : TargetActors)
+	{
+		ATarget* Target = Cast<ATarget>(TargetActor);
+		if (!Target)
+		{
+			continue;
+		}
+
+		TInlineComponentArray<UMeshComponent*> MeshComponents(Target);
+		Target->GetComponents(MeshComponents);
+
+		for (UMeshComponent* Mesh : MeshComponents)
+		{
+			if (!Mesh)
+			{
+				continue;
+			}
+
+			const int32 MaterialCount = Mesh->GetNumMaterials();
+			for (int32 Index = 0; Index < MaterialCount; ++Index)
+			{
+				if (UMaterialInstanceDynamic* DynamicMat = Mesh->CreateAndSetMaterialInstanceDynamic(Index))
+				{
+					DynamicMat->SetVectorParameterValue(TEXT("TargetColor"), SelectedColor);
+					DynamicMat->SetVectorParameterValue(TEXT("Color"), SelectedColor);
+				}
+			}
+		}
+	}
+}
+
 bool AAimTrainerPlayerController::AnyMenuOpen() const
 {
 	return (Scoreboard || MapSelector || SettingsMenu || VideoSettingsMenu || MainMenu || CrosshairSelector || ColorPicker);

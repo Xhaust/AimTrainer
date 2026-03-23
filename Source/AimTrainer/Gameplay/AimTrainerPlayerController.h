@@ -42,6 +42,9 @@ public:
 	void OpenColorPicker();
 
 	UFUNCTION()
+	void HandleColorSelected(FLinearColor SelectedColor);
+
+	UFUNCTION()
 	void LoadMap(FName LevelName);
 
 	UFUNCTION()
@@ -125,6 +128,8 @@ private:
 
 	UFUNCTION()
 	bool AnyMenuOpen() const;
+
+	void ApplyTargetColorToLiveTargets(const FLinearColor& SelectedColor) const;
 
 	// ===== Settings =====
 	UPROPERTY()
