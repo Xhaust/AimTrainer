@@ -5,7 +5,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "PlayerCharacter.h"
+#include "Target.h"
 #include "AimTrainer/Utils/RuntimeAssetLoader.h"
+#include "Components/MeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 void AAimTrainerPlayerController::BeginPlay()
@@ -254,6 +256,14 @@ void AAimTrainerPlayerController::OpenColorPicker()
 
 	if (ColorPicker)
 	{
+		ColorPicker->OnColorSelected.RemoveDynamic(this, &ThisClass::HandleColorSelected);
+		ColorPicker->OnColorSelected.AddDynamic(this, &ThisClass::HandleColorSelected);
+
+		if (UserSettings)
+		{
+			ColorPicker->OnColorButtonClicked(UserSettings->TargetColor);
+		}
+
 		ColorPicker->AddToViewport();
 		FInputModeGameAndUI Mode;
 		Mode.SetHideCursorDuringCapture(false);
