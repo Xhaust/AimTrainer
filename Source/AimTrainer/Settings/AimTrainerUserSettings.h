@@ -43,8 +43,12 @@ public:
 	float FieldOfView = 90.0f;
 
 	// Target color
-	UPROPERTY(Config, EditAnywhere, Category = "Targets")
+	UPROPERTY(Config, EditAnywhere, Category = "Colors")
 	FLinearColor TargetColor = FLinearColor::Black;
+	
+	// Wall color
+	UPROPERTY(Config, EditAnywhere, Category = "Colors")
+	FLinearColor WallColor = FLinearColor::White;
 
 	// Crosshair settings
 	UPROPERTY(Config, EditAnywhere, Category = "Crosshair")
