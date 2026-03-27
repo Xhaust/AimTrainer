@@ -10,6 +10,40 @@
 #include "Components/MeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 
+template <typename TWidget>
+void OpenMenuWidget(
+	AAimTrainerPlayerController* Controller,
+	TWidget*& WidgetInstance,
+	TSubclassOf<TWidget> WidgetClass,
+	bool bCloseExistingMenus)
+{
+	if (!Controller)
+	{
+		return;
+	}
+
+	if (bCloseExistingMenus)
+	{
+		Controller->CloseAllMenus();
+	}
+
+	if (!WidgetInstance && WidgetClass)
+	{
+		WidgetInstance = CreateWidget<TWidget>(Controller, WidgetClass);
+	}
+
+	if (WidgetInstance)
+	{
+		WidgetInstance->AddToViewport();
+
+		FInputModeGameAndUI Mode;
+		Mode.SetHideCursorDuringCapture(false);
+		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		Controller->SetInputMode(Mode);
+		Controller->SetShowMouseCursor(true);
+	}
+}
+
 void AAimTrainerPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -129,120 +163,32 @@ void AAimTrainerPlayerController::HandleEscape()
 
 void AAimTrainerPlayerController::OpenMainMenu()
 {
-	if (!MainMenu && MainMenuClass)
-	{
-		MainMenu = CreateWidget<UMainMenu>(this, MainMenuClass);
-	}
-
-	if (MainMenu)
-	{
-		MainMenu->AddToViewport();
-		FInputModeGameAndUI Mode;
-		Mode.SetHideCursorDuringCapture(false);
-		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-		SetInputMode(Mode);
-		bShowMouseCursor = true;
-	}
+	OpenMenuWidget(this, MainMenu, MainMenuClass, false);
 }
 
 void AAimTrainerPlayerController::OpenSettingsMenu()
 {
-	CloseAllMenus();
-
-	if (!SettingsMenu && SettingsMenuClass)
-	{
-		SettingsMenu = CreateWidget<UGameSettingsMenu>(this, SettingsMenuClass);
-	}
-
-	if (SettingsMenu)
-	{
-		SettingsMenu->AddToViewport();
-		FInputModeGameAndUI Mode;
-		Mode.SetHideCursorDuringCapture(false);
-		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-		SetInputMode(Mode);
-		bShowMouseCursor = true;
-	}
+	OpenMenuWidget(this, SettingsMenu, SettingsMenuClass, true);
 }
 
 void AAimTrainerPlayerController::OpenVideoSettingsMenu()
 {
-	CloseAllMenus();
-
-	if (!VideoSettingsMenu && VideoSettingsMenuClass)
-	{
-		VideoSettingsMenu = CreateWidget<UVideoSettingsMenu>(this, VideoSettingsMenuClass);
-	}
-
-	if (VideoSettingsMenu)
-	{
-		VideoSettingsMenu->AddToViewport();
-		FInputModeGameAndUI Mode;
-		Mode.SetHideCursorDuringCapture(false);
-		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-		SetInputMode(Mode);
-		bShowMouseCursor = true;
-	}
+	OpenMenuWidget(this, VideoSettingsMenu, VideoSettingsMenuClass, true);
 }
 
 void AAimTrainerPlayerController::OpenMapSelector()
 {
-	CloseAllMenus();
-
-	if (!MapSelector && MapSelectorClass)
-	{
-		MapSelector = CreateWidget<UMapSelectorWidget>(this, MapSelectorClass);
-	}
-
-	if (MapSelector)
-	{
-		MapSelector->AddToViewport();
-		FInputModeGameAndUI Mode;
-		Mode.SetHideCursorDuringCapture(false);
-		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-		SetInputMode(Mode);
-		bShowMouseCursor = true;
-	}
+	OpenMenuWidget(this, MapSelector, MapSelectorClass, true);
 }
 
 void AAimTrainerPlayerController::OpenCrosshairSelector()
 {
-	CloseAllMenus();
-
-	if (!CrosshairSelector && CrosshairSelectorClass)
-	{
-		CrosshairSelector = CreateWidget<UCrosshairSelectorWidget>(this, CrosshairSelectorClass);
-	}
-
-	if (CrosshairSelector)
-	{
-		CrosshairSelector->AddToViewport();
-		FInputModeGameAndUI Mode;
-		Mode.SetHideCursorDuringCapture(false);
-		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-		SetInputMode(Mode);
-		bShowMouseCursor = true;
-	}
+	OpenMenuWidget(this, CrosshairSelector, CrosshairSelectorClass, true);
 }
 
 void AAimTrainerPlayerController::OpenScoreboard()
 {
-	CloseAllMenus();
-	
-	if (!Scoreboard && ScoreboardClass)
-	{
-		Scoreboard = CreateWidget<UScoreboard>(this, ScoreboardClass);
-	}
-
-	if (Scoreboard)
-	{
-		Scoreboard->AddToViewport();
-		FInputModeGameAndUI Mode;
-		Mode.SetHideCursorDuringCapture(false);
-		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-		SetInputMode(Mode);
-		bShowMouseCursor = true;
-	}
+	OpenMenuWidget(this, Scoreboard, ScoreboardClass, true);
 }
 
 void AAimTrainerPlayerController::OpenColorPicker()
