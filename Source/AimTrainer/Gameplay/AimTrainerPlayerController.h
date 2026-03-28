@@ -9,6 +9,7 @@
 #include "AimTrainer/UI/MainMenu.h"
 #include "AimTrainer/UI/Scoreboard.h"
 #include "AimTrainer/UI/VideoSettingsMenu.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "AimTrainerPlayerController.generated.h"
 
@@ -52,6 +53,9 @@ public:
 
 	UFUNCTION()
 	void ApplyCrosshairFromFile(const FString& FilePath);
+
+	void PushMenu(UUserWidget* MenuWidget);
+	void CloseLastMenu();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -128,6 +132,11 @@ private:
 
 	UFUNCTION()
 	bool AnyMenuOpen() const;
+
+	void UpdateMenuInputMode(bool bMenuOpen);
+
+	UPROPERTY()
+	TArray<TObjectPtr<UUserWidget>> MenuStack;
 
 	void ApplyTargetColorToLiveTargets(const FLinearColor& SelectedColor) const;
 

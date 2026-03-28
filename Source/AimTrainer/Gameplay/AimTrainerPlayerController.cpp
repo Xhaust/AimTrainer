@@ -9,13 +9,25 @@
 #include "AimTrainer/Utils/RuntimeAssetLoader.h"
 #include "Components/MeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Templates/Function.h"
+
+template <typename TWidget>
+static void CloseMenuWidget(TWidget*& WidgetInstance)
+{
+	if (WidgetInstance)
+	{
+		WidgetInstance->RemoveFromParent();
+		WidgetInstance = nullptr;
+	}
+}
 
 template <typename TWidget>
 void OpenMenuWidget(
 	AAimTrainerPlayerController* Controller,
 	TWidget*& WidgetInstance,
 	TSubclassOf<TWidget> WidgetClass,
-	bool bCloseExistingMenus)
+	bool bCloseExistingMenus,
+	TFunction<void(TWidget*)> OnOpened = nullptr)
 {
 	if (!Controller)
 	{
@@ -34,13 +46,12 @@ void OpenMenuWidget(
 
 	if (WidgetInstance)
 	{
-		WidgetInstance->AddToViewport();
+		if (OnOpened)
+		{
+			OnOpened(WidgetInstance);
+		}
 
-		FInputModeGameAndUI Mode;
-		Mode.SetHideCursorDuringCapture(false);
-		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-		Controller->SetInputMode(Mode);
-		Controller->SetShowMouseCursor(true);
+		Controller->PushMenu(WidgetInstance);
 	}
 }
 
@@ -151,7 +162,7 @@ void AAimTrainerPlayerController::HandleEscape()
 {
 	if (AnyMenuOpen())
 	{
-		CloseAllMenus();
+		CloseLastMenu();
 	}
 	else
 	{
@@ -168,69 +179,141 @@ void AAimTrainerPlayerController::OpenMainMenu()
 
 void AAimTrainerPlayerController::OpenSettingsMenu()
 {
-	OpenMenuWidget(this, SettingsMenu, SettingsMenuClass, true);
+	OpenMenuWidget(this, SettingsMenu, SettingsMenuClass, false);
 }
 
 void AAimTrainerPlayerController::OpenVideoSettingsMenu()
 {
-	OpenMenuWidget(this, VideoSettingsMenu, VideoSettingsMenuClass, true);
+	OpenMenuWidget(this, VideoSettingsMenu, VideoSettingsMenuClass, false);
 }
 
 void AAimTrainerPlayerController::OpenMapSelector()
 {
-	OpenMenuWidget(this, MapSelector, MapSelectorClass, true);
+	OpenMenuWidget(this, MapSelector, MapSelectorClass, false);
 }
 
 void AAimTrainerPlayerController::OpenCrosshairSelector()
 {
-	OpenMenuWidget(this, CrosshairSelector, CrosshairSelectorClass, true);
+	OpenMenuWidget(this, CrosshairSelector, CrosshairSelectorClass, false);
 }
 
 void AAimTrainerPlayerController::OpenScoreboard()
 {
-	OpenMenuWidget(this, Scoreboard, ScoreboardClass, true);
+	OpenMenuWidget(this, Scoreboard, ScoreboardClass, false);
 }
 
 void AAimTrainerPlayerController::OpenColorPicker()
 {
-	CloseAllMenus();
+	OpenMenuWidget(this, ColorPicker, ColorPickerClass, false,
+		TFunction<void(UColorPicker*)>([this](UColorPicker* Picker)
+		{
+			Picker->OnColorSelected.RemoveDynamic(this, &ThisClass::HandleColorSelected);
+			Picker->OnColorSelected.AddDynamic(this, &ThisClass::HandleColorSelected);
 
-	if (!ColorPicker && ColorPickerClass)
+			if (UserSettings)
+			{
+				Picker->OnColorButtonClicked(UserSettings->TargetColor);
+			}
+		}));
+}
+
+void AAimTrainerPlayerController::PushMenu(UUserWidget* MenuWidget)
+{
+	if (!MenuWidget)
 	{
-		ColorPicker = CreateWidget<UColorPicker>(this, ColorPickerClass);
+		return;
 	}
 
-	if (ColorPicker)
+	while (MenuStack.Num() > 0 && !MenuStack.Last())
 	{
-		ColorPicker->OnColorSelected.RemoveDynamic(this, &ThisClass::HandleColorSelected);
-		ColorPicker->OnColorSelected.AddDynamic(this, &ThisClass::HandleColorSelected);
+		MenuStack.Pop();
+	}
 
-		if (UserSettings)
+	if (MenuStack.Num() > 0 && MenuStack.Last() == MenuWidget)
+	{
+		MenuWidget->AddToViewport();
+		UpdateMenuInputMode(true);
+		return;
+	}
+
+	if (MenuStack.Num() > 0)
+	{
+		if (UUserWidget* CurrentTop = MenuStack.Last())
 		{
-			ColorPicker->OnColorButtonClicked(UserSettings->TargetColor);
+			CurrentTop->RemoveFromParent();
 		}
+	}
 
-		ColorPicker->AddToViewport();
+	MenuStack.Remove(MenuWidget);
+	MenuStack.Add(MenuWidget);
+	MenuWidget->AddToViewport();
+	UpdateMenuInputMode(true);
+}
+
+void AAimTrainerPlayerController::CloseLastMenu()
+{
+	while (MenuStack.Num() > 0 && !MenuStack.Last())
+	{
+		MenuStack.Pop();
+	}
+
+	if (MenuStack.Num() == 0)
+	{
+		UpdateMenuInputMode(false);
+		return;
+	}
+
+	if (UUserWidget* TopMenu = MenuStack.Pop())
+	{
+		TopMenu->RemoveFromParent();
+	}
+
+	while (MenuStack.Num() > 0 && !MenuStack.Last())
+	{
+		MenuStack.Pop();
+	}
+
+	if (MenuStack.Num() > 0)
+	{
+		if (UUserWidget* NewTop = MenuStack.Last())
+		{
+			NewTop->AddToViewport();
+		}
+		UpdateMenuInputMode(true);
+	}
+	else
+	{
+		UpdateMenuInputMode(false);
+	}
+}
+
+void AAimTrainerPlayerController::UpdateMenuInputMode(bool bMenuOpen)
+{
+	if (bMenuOpen)
+	{
 		FInputModeGameAndUI Mode;
 		Mode.SetHideCursorDuringCapture(false);
 		Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 		SetInputMode(Mode);
-		bShowMouseCursor = true;
+		SetShowMouseCursor(true);
+		return;
 	}
+
+	SetInputMode(FInputModeGameOnly());
+	SetShowMouseCursor(false);
 }
 
 void AAimTrainerPlayerController::CloseAllMenus()
 {
-	if (Scoreboard) { Scoreboard->RemoveFromParent(); Scoreboard = nullptr; }
-	if (MapSelector) { MapSelector->RemoveFromParent(); MapSelector = nullptr; }
-	if (SettingsMenu) { SettingsMenu->RemoveFromParent(); SettingsMenu = nullptr; }
-	if (VideoSettingsMenu) { VideoSettingsMenu->RemoveFromParent(); VideoSettingsMenu = nullptr; }
-	if (MainMenu) { MainMenu->RemoveFromParent(); MainMenu = nullptr; }
-	if (CrosshairSelector) { CrosshairSelector->RemoveFromParent(); CrosshairSelector = nullptr; }
-	if (ColorPicker) { ColorPicker->RemoveFromParent(); ColorPicker = nullptr; }
-
-	SetInputMode(FInputModeGameOnly());
-	bShowMouseCursor = false;
+	CloseMenuWidget(Scoreboard);
+	CloseMenuWidget(MapSelector);
+	CloseMenuWidget(SettingsMenu);
+	CloseMenuWidget(VideoSettingsMenu);
+	CloseMenuWidget(MainMenu);
+	CloseMenuWidget(CrosshairSelector);
+	CloseMenuWidget(ColorPicker);
+	MenuStack.Empty();
+	UpdateMenuInputMode(false);
 }
 
 void AAimTrainerPlayerController::HandleColorSelected(FLinearColor SelectedColor)
@@ -287,7 +370,15 @@ void AAimTrainerPlayerController::ApplyTargetColorToLiveTargets(const FLinearCol
 
 bool AAimTrainerPlayerController::AnyMenuOpen() const
 {
-	return (Scoreboard || MapSelector || SettingsMenu || VideoSettingsMenu || MainMenu || CrosshairSelector || ColorPicker);
+	for (int32 Index = MenuStack.Num() - 1; Index >= 0; --Index)
+	{
+		if (MenuStack[Index])
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void AAimTrainerPlayerController::LoadMap(FName MapName)
