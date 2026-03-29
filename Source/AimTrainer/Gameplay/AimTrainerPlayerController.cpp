@@ -12,16 +12,6 @@
 #include "Templates/Function.h"
 
 template <typename TWidget>
-static void CloseMenuWidget(TWidget*& WidgetInstance)
-{
-	if (WidgetInstance)
-	{
-		WidgetInstance->RemoveFromParent();
-		WidgetInstance = nullptr;
-	}
-}
-
-template <typename TWidget>
 void OpenMenuWidget(
 	AAimTrainerPlayerController* Controller,
 	TWidget*& WidgetInstance,
@@ -305,15 +295,12 @@ void AAimTrainerPlayerController::UpdateMenuInputMode(bool bMenuOpen)
 
 void AAimTrainerPlayerController::CloseAllMenus()
 {
-	CloseMenuWidget(Scoreboard);
-	CloseMenuWidget(MapSelector);
-	CloseMenuWidget(SettingsMenu);
-	CloseMenuWidget(VideoSettingsMenu);
-	CloseMenuWidget(MainMenu);
-	CloseMenuWidget(CrosshairSelector);
-	CloseMenuWidget(ColorPicker);
+	while (AnyMenuOpen())
+	{
+		CloseLastMenu();
+	}
+
 	MenuStack.Empty();
-	UpdateMenuInputMode(false);
 }
 
 void AAimTrainerPlayerController::HandleColorSelected(FLinearColor SelectedColor)
@@ -385,8 +372,8 @@ void AAimTrainerPlayerController::LoadMap(FName MapName)
 {
 	if (MapName.IsNone()) return;
 
-	UGameplayStatics::OpenLevel(this, MapName);
 	CloseAllMenus();
+	UGameplayStatics::OpenLevel(this, MapName);
 
 }
 
