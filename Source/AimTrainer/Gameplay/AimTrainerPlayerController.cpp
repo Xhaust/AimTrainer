@@ -118,7 +118,10 @@ void AAimTrainerPlayerController::HandleLook(const FInputActionValue& Value)
 	{
 		if (UGameProfileManager* PM = GI->GetSubsystem<UGameProfileManager>())
 		{
-			ConversionScale = PM->GetConversionScaleForProfile(Settings->CurrentGameProfile);
+			if (Settings)
+			{
+				ConversionScale = PM->GetConversionScaleForProfile(Settings->CurrentGameProfile);
+			}
 		}
 	}
 
