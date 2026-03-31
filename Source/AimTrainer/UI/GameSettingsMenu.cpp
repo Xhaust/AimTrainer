@@ -16,11 +16,14 @@ void UGameSettingsMenu::NativeOnInitialized()
 
 	UserSettings = UAimTrainerUserSettings::GetAimTrainerUserSettings();
 
-	ProfileComboBox->ClearOptions();
-	const TArray<FGameProfile> Profiles = ProfileManager->GetProfiles();
-	for (const FGameProfile& Profile : Profiles)
+	if (ProfileManager)
 	{
-		ProfileComboBox->AddOption(Profile.ProfileName);
+		ProfileComboBox->ClearOptions();
+		const TArray<FGameProfile> Profiles = ProfileManager->GetProfiles();
+		for (const FGameProfile& Profile : Profiles)
+		{
+			ProfileComboBox->AddOption(Profile.ProfileName);
+		}
 	}
 	
 	if (UserSettings)
