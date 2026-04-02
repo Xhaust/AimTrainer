@@ -11,15 +11,7 @@ void UMainMenu::NativeConstruct()
 
 	if (StartEndGameButton)
 	{
-		AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode());
-		if (GameMode)
-		{
-			StartEndGameText->SetText(
-				GameMode->CurrentMode == EGameModeType::TimedSession ?
-				FText::FromString("End Game") :
-				FText::FromString("Start Game")
-			);
-		}	
+		UpdateStartEndButtonText();
 		StartEndGameButton->OnClicked.AddDynamic(this, &UMainMenu::OnStartGameClicked);
 	}
 
@@ -65,11 +57,22 @@ void UMainMenu::OnStartGameClicked()
 	if (GameMode)
 	{
 		GameMode->ToggleGameMode();
-		StartEndGameText->SetText(
-			GameMode->CurrentMode == EGameModeType::TimedSession ?
-			FText::FromString("End Game") :
-			FText::FromString("Start Game")
-		);
+		UpdateStartEndButtonText();
+	}
+}
+
+void UMainMenu::UpdateStartEndButtonText()
+{
+	if (AAimTrainerGameMode* GameMode = Cast<AAimTrainerGameMode>(GetWorld()->GetAuthGameMode()))
+	{
+		if (StartEndGameText)
+		{
+			StartEndGameText->SetText(
+				GameMode->CurrentMode == EGameModeType::TimedSession ?
+				FText::FromString("End Game") :
+				FText::FromString("Start Game")
+			);
+		}
 	}
 }
 

@@ -33,6 +33,9 @@ public:
 	UFUNCTION()
 	void OnStartGameClicked();
 	
+	UFUNCTION()
+	void UpdateStartEndButtonText();
+	
 	UPROPERTY(meta = (BindWidget))
 	UButton* SettingsButton;
 	
