@@ -37,12 +37,23 @@ public:
 	void OnFOVSliderChanged(float NewValue);
 	
 	// Color Picker
-	UPROPERTY(meta = (BindWidget))
-	UButton* ColorPickerButton;
+	UPROPERTY(meta = (BindWidgetOptional))
+	UButton* TargetColorPickerButton;
 	
 	UFUNCTION()
-	void OnColorPickerButtonClicked();
+	void OnTargetColorPickerButtonClicked();
+
+	UPROPERTY(meta = (BindWidgetOptional))
+	UButton* WallColorPickerButton;
+
+	UFUNCTION()
+	void OnWallColorPickerButtonClicked();
+
+	// Backward-compatible binding for older widget blueprints.
+	UPROPERTY(meta = (BindWidgetOptional))
+	UButton* ColorPickerButton;
 	
+
 	UPROPERTY(meta = (BindWidget))
 	UButton* ApplyButton;
 

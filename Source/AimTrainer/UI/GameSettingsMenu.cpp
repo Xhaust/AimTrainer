@@ -61,9 +61,20 @@ void UGameSettingsMenu::NativeConstruct()
 		FOVSliderTextBox->OnValueChanged.AddDynamic(this, &UGameSettingsMenu::OnFOVSliderChanged);
 	}
 	
+	if (TargetColorPickerButton)
+	{
+		TargetColorPickerButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnTargetColorPickerButtonClicked);
+	}
+
+	if (WallColorPickerButton)
+	{
+		WallColorPickerButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnWallColorPickerButtonClicked);
+	}
+
+	// Keep legacy single-button widgets functional by treating it as target color.
 	if (ColorPickerButton)
 	{
-		ColorPickerButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnColorPickerButtonClicked);
+		ColorPickerButton->OnClicked.AddDynamic(this, &UGameSettingsMenu::OnTargetColorPickerButtonClicked);
 	}
 }
 
@@ -75,13 +86,22 @@ void UGameSettingsMenu::OnFOVSliderChanged(float NewValue)
 {
 }
 
-void UGameSettingsMenu::OnColorPickerButtonClicked()
+void UGameSettingsMenu::OnTargetColorPickerButtonClicked()
 {
 	if (AAimTrainerPlayerController* PC =
 			Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
 	{
-		PC->OpenColorPicker();
+		PC->OpenColorPicker(AAimTrainerPlayerController::EColorPickerTarget::Target);
 	}	
+}
+
+void UGameSettingsMenu::OnWallColorPickerButtonClicked()
+{
+	if (AAimTrainerPlayerController* PC =
+			Cast<AAimTrainerPlayerController>(GetOwningPlayer()))
+	{
+		PC->OpenColorPicker(AAimTrainerPlayerController::EColorPickerTarget::Wall);
+	}
 }
 
 void UGameSettingsMenu::ApplyOnClicked()
