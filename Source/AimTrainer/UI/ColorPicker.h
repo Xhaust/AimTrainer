@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Button.h"
 #include "Components/EditableText.h"
 #include "Components/WrapBox.h"
 #include "ColorPicker.generated.h"
@@ -42,9 +41,6 @@ protected:
 	virtual void NativeConstruct() override;
 
 private:
-	UPROPERTY()
-	TMap<UButton*, FLinearColor> ButtonColorMap;
-
 	UFUNCTION()
-	void OnSwatchClicked();
+	void OnSwatchColorClicked(FLinearColor SelectedColor);
 };

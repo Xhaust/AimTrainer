@@ -1,4 +1,5 @@
 #include "ColorPicker.h"
+#include "ColorSwatchButton.h"
 
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"
@@ -8,8 +9,6 @@
 void UColorPicker::NativeConstruct()
 {
 	Super::NativeConstruct();
-
-	ButtonColorMap.Reset();
 
 	if (!ColorGrid)
 	{
@@ -21,9 +20,9 @@ void UColorPicker::NativeConstruct()
 
 	for (const FLinearColor& SwatchColor : Palette)
 	{
-		UButton* SwatchButton = WidgetTree
-			? WidgetTree->ConstructWidget<UButton>(UButton::StaticClass())
-			: NewObject<UButton>(this);
+		UColorSwatchButton* SwatchButton = WidgetTree
+			? WidgetTree->ConstructWidget<UColorSwatchButton>(UColorSwatchButton::StaticClass())
+			: NewObject<UColorSwatchButton>(this);
 
 		if (!SwatchButton)
 		{
@@ -47,20 +46,16 @@ void UColorPicker::NativeConstruct()
 		SwatchFill->SetBrushColor(SwatchColor);
 		SwatchSize->SetContent(SwatchFill);
 		SwatchButton->SetContent(SwatchSize);
+		SwatchButton->SwatchColor = SwatchColor;
 
-		SwatchButton->OnClicked.AddDynamic(this, &UColorPicker::OnSwatchClicked);
+		SwatchButton->OnSwatchColorClicked.RemoveDynamic(this, &UColorPicker::OnSwatchColorClicked);
+		SwatchButton->OnSwatchColorClicked.AddDynamic(this, &UColorPicker::OnSwatchColorClicked);
 		ColorGrid->AddChildToWrapBox(SwatchButton);
-		ButtonColorMap.Add(SwatchButton, SwatchColor);
 
 		if (UWrapBoxSlot* WrapSlot = Cast<UWrapBoxSlot>(SwatchButton->Slot))
 		{
 			WrapSlot->SetPadding(FMargin(2.0f));
 		}
-	}
-
-	if (Palette.Num() > 0)
-	{
-		OnColorButtonClicked(Palette[0]);
 	}
 }
 
@@ -101,20 +96,7 @@ FString UColorPicker::ToHex(const FLinearColor& Color)
 	return FString::Printf(TEXT("#%02X%02X%02X%02X"), SRGB.R, SRGB.G, SRGB.B, SRGB.A);
 }
 
-void UColorPicker::OnSwatchClicked()
+void UColorPicker::OnSwatchColorClicked(FLinearColor SelectedColor)
 {
-	for (const TPair<UButton*, FLinearColor>& Pair : ButtonColorMap)
-	{
-		UButton* Button = Pair.Key;
-		if (!Button)
-		{
-			continue;
-		}
-
-		if (Button->HasKeyboardFocus() || Button->IsHovered() || Button->IsPressed())
-		{
-			OnColorButtonClicked(Pair.Value);
-			return;
-		}
-	}
+	OnColorButtonClicked(SelectedColor);
 }
