@@ -19,6 +19,12 @@ class AIMTRAINER_API AAimTrainerPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
+	enum class EColorPickerTarget : uint8
+	{
+		Target,
+		Wall
+	};
+
 	void ApplyFOV();
 	
 	UFUNCTION()
@@ -39,8 +45,7 @@ public:
 	UFUNCTION()
 	void OpenScoreboard();
 	
-	UFUNCTION()
-	void OpenColorPicker();
+	void OpenColorPicker(EColorPickerTarget PickerTarget);
 
 	UFUNCTION()
 	void HandleColorSelected(FLinearColor SelectedColor);
@@ -139,6 +144,9 @@ private:
 	TArray<TObjectPtr<UUserWidget>> MenuStack;
 
 	void ApplyTargetColorToLiveTargets(const FLinearColor& SelectedColor) const;
+	void ApplyWallColorToLiveWorldMeshes(const FLinearColor& SelectedColor) const;
+
+	EColorPickerTarget ActiveColorPickerTarget = EColorPickerTarget::Target;
 
 	// ===== Settings =====
 	UPROPERTY()

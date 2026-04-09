@@ -8,6 +8,8 @@
 #include "Target.h"
 #include "AimTrainer/Utils/RuntimeAssetLoader.h"
 #include "Components/MeshComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
 #include "Templates/Function.h"
 
@@ -195,8 +197,10 @@ void AAimTrainerPlayerController::OpenScoreboard()
 	OpenMenuWidget(this, Scoreboard, ScoreboardClass, false);
 }
 
-void AAimTrainerPlayerController::OpenColorPicker()
+void AAimTrainerPlayerController::OpenColorPicker(EColorPickerTarget PickerTarget)
 {
+	ActiveColorPickerTarget = PickerTarget;
+
 	OpenMenuWidget(this, ColorPicker, ColorPickerClass, false,
 		TFunction<void(UColorPicker*)>([this](UColorPicker* Picker)
 		{
@@ -205,7 +209,11 @@ void AAimTrainerPlayerController::OpenColorPicker()
 
 			if (UserSettings)
 			{
-				Picker->OnColorButtonClicked(UserSettings->TargetColor);
+				const FLinearColor InitialColor =
+					(ActiveColorPickerTarget == EColorPickerTarget::Wall)
+						? UserSettings->WallColor
+						: UserSettings->TargetColor;
+				Picker->OnColorButtonClicked(InitialColor);
 			}
 		}));
 }
@@ -310,11 +318,26 @@ void AAimTrainerPlayerController::HandleColorSelected(FLinearColor SelectedColor
 {
 	if (UserSettings)
 	{
-		UserSettings->TargetColor = SelectedColor;
+		if (ActiveColorPickerTarget == EColorPickerTarget::Wall)
+		{
+			UserSettings->WallColor = SelectedColor;
+		}
+		else
+		{
+			UserSettings->TargetColor = SelectedColor;
+		}
+
 		UserSettings->SaveSettings();
 	}
 
-	ApplyTargetColorToLiveTargets(SelectedColor);
+	if (ActiveColorPickerTarget == EColorPickerTarget::Wall)
+	{
+		ApplyWallColorToLiveWorldMeshes(SelectedColor);
+	}
+	else
+	{
+		ApplyTargetColorToLiveTargets(SelectedColor);
+	}
 }
 
 void AAimTrainerPlayerController::ApplyTargetColorToLiveTargets(const FLinearColor& SelectedColor) const
@@ -351,6 +374,45 @@ void AAimTrainerPlayerController::ApplyTargetColorToLiveTargets(const FLinearCol
 				if (UMaterialInstanceDynamic* DynamicMat = Mesh->CreateAndSetMaterialInstanceDynamic(Index))
 				{
 					DynamicMat->SetVectorParameterValue(TEXT("TargetColor"), SelectedColor);
+					DynamicMat->SetVectorParameterValue(TEXT("Color"), SelectedColor);
+				}
+			}
+		}
+	}
+}
+
+void AAimTrainerPlayerController::ApplyWallColorToLiveWorldMeshes(const FLinearColor& SelectedColor) const
+{
+	UWorld* World = GetWorld();
+	if (!World)
+	{
+		return;
+	}
+
+	for (TActorIterator<AActor> It(World); It; ++It)
+	{
+		AActor* Actor = *It;
+		if (!Actor || Actor->IsA<ATarget>())
+		{
+			continue;
+		}
+
+		TInlineComponentArray<UStaticMeshComponent*> StaticMeshComponents(Actor);
+		Actor->GetComponents(StaticMeshComponents);
+
+		for (UStaticMeshComponent* Mesh : StaticMeshComponents)
+		{
+			if (!Mesh)
+			{
+				continue;
+			}
+
+			const int32 MaterialCount = Mesh->GetNumMaterials();
+			for (int32 Index = 0; Index < MaterialCount; ++Index)
+			{
+				if (UMaterialInstanceDynamic* DynamicMat = Mesh->CreateAndSetMaterialInstanceDynamic(Index))
+				{
+					DynamicMat->SetVectorParameterValue(TEXT("WallColor"), SelectedColor);
 					DynamicMat->SetVectorParameterValue(TEXT("Color"), SelectedColor);
 				}
 			}
